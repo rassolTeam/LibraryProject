@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .box {
+            text-align: center;
+            padding: 50px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 42px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 25px;
+            background: #00c9a7;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #00a88a;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h1>📚 Library System</h1>
+    <p>Welcome to your smart digital library</p>
+
+    <a class="btn" href="{% url 'book_list' %}">Enter Library</a>
+</div>
+
+</body>
+</html>
