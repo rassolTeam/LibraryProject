@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f5f6fa;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            width: 200px;
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ddd;
+        }
+
+        .card a {
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #3498db;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .card a:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>📚 Library Home</h1>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h3>📖 Books</h3>
+        <a href="{% url 'book_list' %}">View</a>
+    </div>
+
+    <div class="card">
+        <h3>👨‍🏫 Authors</h3>
+        <a href="#">View</a>
+    </div>
+
+    <div class="card">
+        <h3>📂 Categories</h3>
+        <a href="#">View</a>
+    </div>
+
+</div>
+
+</body>
+</html>
