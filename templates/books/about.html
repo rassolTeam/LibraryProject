@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}عن المكتبة - المكتبة الإلكترونية{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+```
+<!-- العنوان -->
+<div class="text-center mb-5">
+    <h2 class="fw-bold">📚 عن المكتبة الإلكترونية</h2>
+    <p class="text-muted">منصة معرفية تهدف لنشر الثقافة وإتاحة الكتب للجميع</p>
+</div>
+
+<div class="row g-4">
+
+    <!-- المحتوى الرئيسي -->
+    <div class="col-md-8">
+
+        <!-- تعريف -->
+        <div class="card border-0 shadow-sm p-4 mb-4">
+            <p class="lead mb-0">
+                مكتبتنا الإلكترونية توفر مجموعة واسعة من الكتب العربية والعالمية
+                في مختلف المجالات، لتكون مرجعًا لكل قارئ وباحث عن المعرفة.
+            </p>
+        </div>
+
+        <!-- الأهداف -->
+        <div class="card border-0 shadow-sm p-4 mb-4">
+            <h4 class="mb-3 fw-bold">
+                <i class="fas fa-bullseye text-primary"></i> أهدافنا
+            </h4>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <i class="fas fa-check-circle text-success me-2"></i> نشر المعرفة والثقافة
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-check-circle text-success me-2"></i> تشجيع القراءة
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-check-circle text-success me-2"></i> توفير مصادر تعليمية متنوعة
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-check-circle text-success me-2"></i> دعم المؤلفين والكتاب
+                </li>
+            </ul>
+        </div>
+
+        <!-- الإحصائيات -->
+        <div class="mb-4">
+            <h4 class="fw-bold mb-3">
+                <i class="fas fa-chart-line text-info"></i> إحصائيات المكتبة
+            </h4>
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <div class="card text-center border-0 shadow-sm stat-card p-3">
+                        <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                        <h2 class="text-primary">{{ total_books }}</h2>
+                        <p class="text-muted mb-0">كتاب متوفر</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-center border-0 shadow-sm stat-card p-3">
+                        <i class="fas fa-users fa-3x text-success mb-3"></i>
+                        <h2 class="text-success">{{ total_authors }}</h2>
+                        <p class="text-muted mb-0">مؤلف</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-center border-0 shadow-sm stat-card p-3">
+                        <i class="fas fa-tags fa-3x text-info mb-3"></i>
+                        <h2 class="text-info">{{ total_categories }}</h2>
+                        <p class="text-muted mb-0">تصنيف</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- الجانب -->
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm p-4 text-center">
+            <h5 class="fw-bold mb-3">
+                <i class="fas fa-envelope text-primary"></i> تواصل معنا
+            </h5>
+
+            <p class="mb-3">
+                <i class="fas fa-envelope me-2 text-muted"></i>
+                info@library.com
+            </p>
+
+            <p class="mb-3">
+                <i class="fas fa-phone me-2 text-muted"></i>
+                0123456789
+            </p>
+
+            <p class="mb-0">
+                <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+                المكتبة الإلكترونية - المدينة
+            </p>
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+{% endblock %}

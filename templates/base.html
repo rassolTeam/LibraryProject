@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}المكتبة الإلكترونية{% endblock %}</title>
+
+```
+<!-- Bootstrap -->
+<link href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="{% static 'css/fontawesome/all.min.css' %}">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Cairo', sans-serif;
+        direction: rtl;
+        background-color: #f5f7fb;
+    }
+
+    /* Navbar */
+    .navbar {
+        backdrop-filter: blur(10px);
+        background: rgba(33, 37, 41, 0.95) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .navbar-brand {
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+
+    .nav-link {
+        transition: 0.3s;
+    }
+
+    .nav-link:hover {
+        color: #0dcaf0 !important;
+        transform: translateY(-2px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+        background: #ffffff;
+        min-height: 100vh;
+        border-left: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 8px 10px;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+        background-color: #0dcaf0;
+        color: white !important;
+        padding-right: 15px;
+    }
+
+    /* Cards */
+    .book-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        background: #fff;
+    }
+
+    .book-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .book-card img {
+        height: 220px;
+        object-fit: cover;
+    }
+
+    /* Buttons */
+    .btn-view {
+        background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+        border: none;
+        color: white;
+        border-radius: 10px;
+        padding: 6px 15px;
+        transition: 0.3s;
+    }
+
+    .btn-view:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+    }
+
+    .btn-download {
+        background: linear-gradient(45deg, #198754, #20c997);
+        border: none;
+        color: white;
+        border-radius: 10px;
+        padding: 6px 15px;
+        transition: 0.3s;
+    }
+
+    .btn-download:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(25, 135, 84, 0.4);
+    }
+
+    /* Category Title */
+    .category-title {
+        font-weight: bold;
+        border-right: 5px solid #0dcaf0;
+        padding-right: 10px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    /* Stats */
+    .stat-card {
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        background: #f8f9fa;
+    }
+
+    /* Messages */
+    .messages {
+        position: fixed;
+        top: 90px;
+        right: 20px;
+        z-index: 1000;
+        min-width: 300px;
+    }
+
+    /* Footer */
+    footer {
+        background: linear-gradient(45deg, #212529, #343a40);
+    }
+
+    footer a {
+        transition: 0.3s;
+    }
+
+    footer a:hover {
+        color: #0dcaf0 !important;
+        transform: scale(1.1);
+    }
+
+    form input,
+    form button {
+        border-radius: 10px !important;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <i class="fas fa-book"></i> المكتبة
+        </a>
+
+```
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'book_list' %}"><i class="fas fa-book"></i> الكتب</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'author_list' %}"><i class="fas fa-users"></i> المؤلفون</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"><i class="fas fa-info-circle"></i> عن الموقع</a></li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'favorite_books' %}"><i class="fas fa-heart"></i></a></li>
+            {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i></a></li>
+            {% endif %}
+        </ul>
+
+        <!-- Search -->
+        <form action="{% url 'search_books' %}" method="get" class="d-flex ms-3">
+            <input type="text" name="q" class="form-control" placeholder="ابحث...">
+            <button class="btn btn-outline-light me-2"><i class="fas fa-search"></i></button>
+        </form>
+
+    </div>
+</div>
+```
+
+</nav>
+
+<!-- Content -->
+
+<div class="container-fluid mt-5 pt-4">
+    <div class="row">
+
+```
+    <!-- Sidebar -->
+    <div class="col-md-3 sidebar p-3">
+        <h5><i class="fas fa-tags"></i> التصنيفات</h5>
+        {% for category in categories %}
+            <a href="{% url 'books_by_category' category.id %}">
+                <i class="fas fa-book"></i> {{ category.name }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- Main -->
+    <div class="col-md-9">
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- Footer -->
+
+<footer class="text-white text-center py-4 mt-5">
+    <p>© 2025 المكتبة الإلكترونية</p>
+</footer>
+
+<script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>
