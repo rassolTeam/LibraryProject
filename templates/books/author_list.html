@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}المؤلفون - المكتبة الإلكترونية{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+```
+<!-- العنوان -->
+<div class="text-center mb-5">
+    <h2 class="fw-bold">👨‍💼 المؤلفون</h2>
+    <p class="text-muted">تعرّف على جميع المؤلفين في المكتبة</p>
+</div>
+
+<div class="row g-4">
+
+    {% for author in authors %}
+    <div class="col-md-4 col-sm-6">
+
+        <div class="card border-0 shadow-sm h-100 author-card p-3 text-center">
+
+            <!-- الصورة -->
+            <div class="mb-3">
+                {% if author.photo %}
+                <img src="{{ author.photo.url }}"
+                     class="rounded-circle shadow"
+                     style="width: 100px; height: 100px; object-fit: cover;">
+                {% else %}
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto shadow"
+                     style="width: 100px; height: 100px;">
+                    <i class="fas fa-user fa-2x text-muted"></i>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- الاسم -->
+            <h5 class="fw-bold">{{ author.name }}</h5>
+
+            <!-- نبذة -->
+            <p class="text-muted small mb-3">
+                {{ author.bio|truncatewords:18 }}
+            </p>
+
+            <!-- عدد الكتب -->
+            <div class="mb-3">
+                <span class="badge bg-light text-dark p-2">
+                    <i class="fas fa-book text-primary"></i>
+                    {{ author.books_count }} كتاب
+                </span>
+            </div>
+
+            <!-- زر -->
+            <a href="{{ author.get_absolute_url }}" class="btn btn-view btn-sm">
+                <i class="fas fa-user"></i> عرض الملف
+            </a>
+
+        </div>
+
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center p-4 shadow-sm">
+            <i class="fas fa-info-circle fa-2x mb-3"></i>
+            <h5>لا يوجد مؤلفون</h5>
+            <p class="mb-0">لم يتم إضافة أي مؤلفين بعد.</p>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+```
+
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}الكتب المفضلة - المكتبة الإلكترونية{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+```
+<!-- العنوان -->
+<div class="text-center mb-5">
+    <h2 class="fw-bold">❤️ الكتب المفضلة</h2>
+    <p class="text-muted">جميع الكتب التي قمت بحفظها للرجوع إليها لاحقاً</p>
+</div>
+
+<div class="row g-4">
+
+    {% for favorite in favorites %}
+    <div class="col-lg-3 col-md-4 col-sm-6">
+
+        <div class="card book-card h-100 position-relative">
+
+            <!-- أيقونة القلب -->
+            <span class="position-absolute top-0 start-0 m-2 badge bg-danger">
+                <i class="fas fa-heart"></i>
+            </span>
+
+            <!-- صورة -->
+            {% if favorite.book.cover_image %}
+            <img src="{{ favorite.book.cover_image.url }}"
+                 class="card-img-top"
+                 style="height: 220px; object-fit: cover;">
+            {% else %}
+            <div class="bg-light d-flex align-items-center justify-content-center"
+                 style="height: 220px;">
+                <i class="fas fa-book fa-2x text-muted"></i>
+            </div>
+            {% endif %}
+
+            <div class="card-body d-flex flex-column">
+
+                <h6 class="fw-bold text-truncate">{{ favorite.book.title }}</h6>
+
+                <p class="text-muted small mb-1">
+                    <i class="fas fa-user"></i> {{ favorite.book.author.name }}
+                </p>
+
+                <p class="text-muted small mb-3">
+                    <i class="fas fa-tag"></i> {{ favorite.book.category.name }}
+                </p>
+
+                <div class="mt-auto d-flex justify-content-between">
+
+                    <a href="{{ favorite.book.get_absolute_url }}"
+                       class="btn btn-sm btn-view">
+                        <i class="fas fa-eye"></i>
+                    </a>
+
+                    {% if favorite.book.read_online_url %}
+                    <a href="{{ favorite.book.read_online_url }}"
+                       class="btn btn-sm btn-outline-success">
+                        <i class="fas fa-book-reader"></i>
+                    </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center p-5 shadow-sm">
+            <i class="fas fa-heart-broken fa-2x mb-3"></i>
+            <h5>لا توجد كتب مفضلة</h5>
+            <p class="mb-0">ابدأ بإضافة كتبك المفضلة لتظهر هنا ❤️</p>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+```
+
+</div>
+{% endblock %}

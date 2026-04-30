@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}بحث الكتب - المكتبة{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+```
+<!-- العنوان -->
+<div class="text-center mb-5">
+    <h2 class="fw-bold">🔍 البحث في المكتبة</h2>
+    <p class="text-muted">ابحث عن أي كتاب بسهولة</p>
+</div>
+
+<!-- نموذج البحث -->
+<div class="card border-0 shadow-sm mb-5">
+    <div class="card-body p-4">
+        <form method="get" class="row g-3 align-items-center">
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    {{ form.query }}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                {{ form.category }}
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-view w-100">
+                    بحث
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- نتائج -->
+<div class="mb-4">
+    {% if search_query %}
+    <h5 class="fw-bold">
+        نتائج البحث عن:
+        <span class="text-primary">"{{ search_query }}"</span>
+    </h5>
+    {% endif %}
+</div>
+
+<div class="row g-4">
+
+    {% for book in books %}
+    <div class="col-lg-3 col-md-4 col-sm-6">
+
+        <div class="card book-card h-100">
+
+            {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}"
+                 class="card-img-top"
+                 style="height: 220px; object-fit: cover;">
+            {% else %}
+            <div class="bg-light d-flex align-items-center justify-content-center"
+                 style="height: 220px;">
+                <i class="fas fa-book fa-2x text-muted"></i>
+            </div>
+            {% endif %}
+
+            <div class="card-body d-flex flex-column">
+
+                <h6 class="fw-bold text-truncate">{{ book.title }}</h6>
+
+                <p class="text-muted small mb-1">
+                    <i class="fas fa-user"></i> {{ book.author.name }}
+                </p>
+
+                <p class="text-muted small mb-3">
+                    <i class="fas fa-tag"></i> {{ book.category.name }}
+                </p>
+
+                <div class="mt-auto d-flex justify-content-between">
+
+                    <a href="{{ book.get_absolute_url }}" class="btn btn-sm btn-view">
+                        <i class="fas fa-eye"></i>
+                    </a>
+
+                    {% if book.read_online_url %}
+                    <a href="{{ book.read_online_url }}"
+                       class="btn btn-sm btn-outline-success">
+                        <i class="fas fa-book-reader"></i>
+                    </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center p-5 shadow-sm">
+            <i class="fas fa-search fa-2x mb-3"></i>
+            <h5>لا توجد نتائج</h5>
+            <p class="mb-0">حاول استخدام كلمات بحث مختلفة</p>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+<!-- Pagination -->
+{% if books.has_other_pages %}
+<nav class="mt-5">
+    <ul class="pagination justify-content-center">
+
+        {% if books.has_previous %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ books.previous_page_number }}{% if search_query %}&query={{ search_query }}{% endif %}">
+                &laquo;
+            </a>
+        </li>
+        {% endif %}
+
+        {% for i in books.paginator.page_range %}
+            {% if books.number == i %}
+            <li class="page-item active">
+                <span class="page-link">{{ i }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ i }}{% if search_query %}&query={{ search_query }}{% endif %}">
+                    {{ i }}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if books.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ books.next_page_number }}{% if search_query %}&query={{ search_query }}{% endif %}">
+                &raquo;
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+```
+
+</div>
+{% endblock %}

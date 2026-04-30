@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ author.name }} - المكتبة{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+```
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white p-3 rounded shadow-sm">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">الرئيسية</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'author_list' %}">المؤلفون</a></li>
+        <li class="breadcrumb-item active">{{ author.name }}</li>
+    </ol>
+</nav>
+
+<!-- Profile -->
+<div class="card border-0 shadow-sm p-4 mb-4">
+    <div class="row align-items-center">
+
+        <!-- الصورة -->
+        <div class="col-md-3 text-center">
+            {% if author.photo %}
+            <img src="{{ author.photo.url }}" class="rounded-circle shadow"
+                 style="width: 180px; height: 180px; object-fit: cover;">
+            {% else %}
+            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto shadow"
+                 style="width: 180px; height: 180px;">
+                <i class="fas fa-user fa-4x text-muted"></i>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- المعلومات -->
+        <div class="col-md-9">
+            <h2 class="fw-bold mb-3">{{ author.name }}</h2>
+
+            <h5 class="text-muted mb-2">
+                <i class="fas fa-user-edit"></i> السيرة الذاتية
+            </h5>
+
+            <p class="lead text-secondary">
+                {{ author.bio|linebreaks }}
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="row g-3 mb-5">
+
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center border-0 shadow-sm stat-card p-3">
+            <i class="fas fa-book fa-2x text-primary mb-2"></i>
+            <h3 class="text-primary">{{ total_books }}</h3>
+            <small class="text-muted">عدد الكتب</small>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center border-0 shadow-sm stat-card p-3">
+            <i class="fas fa-eye fa-2x text-info mb-2"></i>
+            <h3 class="text-info">{{ total_views }}</h3>
+            <small class="text-muted">المشاهدات</small>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center border-0 shadow-sm stat-card p-3">
+            <i class="fas fa-download fa-2x text-success mb-2"></i>
+            <h3 class="text-success">{{ total_downloads }}</h3>
+            <small class="text-muted">التحميلات</small>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center border-0 shadow-sm stat-card p-3">
+            <i class="fas fa-book-reader fa-2x text-warning mb-2"></i>
+            <h3 class="text-warning">{{ total_reads }}</h3>
+            <small class="text-muted">القراءات</small>
+        </div>
+    </div>
+
+</div>
+
+<!-- Books -->
+<div class="mb-4">
+    <h4 class="fw-bold mb-3">
+        <i class="fas fa-book-open text-primary"></i> كتب المؤلف
+    </h4>
+
+    {% if books %}
+    <div class="row g-4">
+
+        {% for book in books %}
+        <div class="col-md-3 col-sm-6">
+            <div class="card book-card h-100">
+
+                <img src="{{ book.cover_image.url }}" class="card-img-top">
+
+                <div class="card-body d-flex flex-column">
+                    <h6 class="fw-bold">{{ book.title }}</h6>
+
+                    <p class="text-muted small mb-3">
+                        <i class="fas fa-calendar"></i> {{ book.published_year }}
+                    </p>
+
+                    <div class="mt-auto d-flex justify-content-between">
+
+                        <a href="{{ book.get_absolute_url }}" class="btn btn-sm btn-view">
+                            <i class="fas fa-eye"></i>
+                        </a>
+
+                        {% if book.read_online_url %}
+                        <a href="{{ book.read_online_url }}" class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-book-reader"></i>
+                        </a>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+    <div class="alert alert-info text-center p-4 shadow-sm">
+        <i class="fas fa-info-circle fa-2x mb-3"></i>
+        <h5>لا توجد كتب</h5>
+        <p class="mb-0">لم يتم إضافة أي كتب لهذا المؤلف بعد.</p>
+    </div>
+    {% endif %}
+</div>
+```
+
+</div>
+{% endblock %}

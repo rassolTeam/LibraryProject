@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }} - المكتبة الإلكترونية{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+```
+<div class="row g-4">
+
+    <!-- صورة + أزرار -->
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm p-3 text-center">
+
+            {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" class="img-fluid rounded mb-3"
+                 style="max-height: 350px; object-fit: cover;">
+            {% else %}
+            <div class="bg-light d-flex align-items-center justify-content-center rounded mb-3"
+                 style="height: 350px;">
+                <i class="fas fa-book fa-4x text-muted"></i>
+            </div>
+            {% endif %}
+
+            <!-- أزرار -->
+            <div class="d-grid gap-2">
+
+                {% if book.read_online_url %}
+                <a href="{{ book.read_online_url }}" target="_blank" class="btn btn-view">
+                    <i class="fas fa-book-reader"></i> قراءة الآن
+                </a>
+                {% endif %}
+
+                {% if book.pdf_file %}
+                <a href="{% url 'download_book' book.id %}" class="btn btn-download">
+                    <i class="fas fa-download"></i> تحميل الكتاب
+                </a>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'toggle_favorite' book.id %}" class="btn btn-outline-danger">
+                    <i class="fas fa-heart"></i> المفضلة
+                </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- التفاصيل -->
+    <div class="col-md-8">
+
+        <div class="card border-0 shadow-sm p-4 h-100">
+
+            <h2 class="fw-bold mb-2">{{ book.title }}</h2>
+
+            {% if not book.is_approved %}
+            <span class="badge bg-warning text-dark mb-2">في انتظار الموافقة</span>
+            {% endif %}
+
+            <p class="text-muted mb-3">
+                <i class="fas fa-user"></i>
+                <a href="{% url 'author_detail' book.author.id %}" class="text-decoration-none">
+                    {{ book.author.name }}
+                </a>
+            </p>
+
+            <!-- Meta -->
+            <div class="mb-4">
+                <span class="badge bg-secondary">{{ book.category.name }}</span>
+                <span class="badge bg-info">{{ book.published_year }}</span>
+                <span class="badge bg-warning text-dark">
+                    <i class="fas fa-eye"></i> {{ book.views_count }}
+                </span>
+            </div>
+
+            <!-- الوصف -->
+            <div class="mb-4">
+                <h5 class="fw-bold">
+                    <i class="fas fa-align-left text-primary"></i> عن الكتاب
+                </h5>
+                <p class="text-secondary">{{ book.description }}</p>
+            </div>
+
+            <!-- معلومات -->
+            <div class="row text-muted small">
+
+                <div class="col-md-6">
+                    <p><i class="fas fa-file-alt"></i> الصفحات: {{ book.pages }}</p>
+                    <p><i class="fas fa-check-circle text-success"></i> الحالة: متاح</p>
+
+                    {% if book.user %}
+                    <p><i class="fas fa-upload"></i> بواسطة: {{ book.user.username }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                    <p><i class="fas fa-calendar"></i> {{ book.created_at|date:"Y-m-d" }}</p>
+                    <p><i class="fas fa-download"></i> {{ book.downloads_count }} تحميل</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- كتب ذات صلة -->
+{% if related_books %}
+<div class="mt-5">
+
+    <h4 class="fw-bold mb-3">
+        <i class="fas fa-book-open text-primary"></i> كتب ذات صلة
+    </h4>
+
+    <div class="row g-4">
+
+        {% for related_book in related_books %}
+        <div class="col-md-3 col-sm-6">
+
+            <div class="card book-card h-100">
+
+                <img src="{{ related_book.cover_image.url }}"
+                     class="card-img-top"
+                     style="height: 180px; object-fit: cover;">
+
+                <div class="card-body d-flex flex-column">
+                    <h6 class="fw-bold">{{ related_book.title }}</h6>
+
+                    <p class="text-muted small mb-3">
+                        {{ related_book.author.name }}
+                    </p>
+
+                    <a href="{{ related_book.get_absolute_url }}"
+                       class="btn btn-sm btn-outline-primary mt-auto">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endif %}
+```
+
+</div>
+{% endblock %}
