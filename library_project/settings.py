@@ -124,6 +124,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Login/Logout URLs
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-LOGIN_URL = 'books:login'
+LOGIN_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'logout'
+LOGIN_URL = 'home'

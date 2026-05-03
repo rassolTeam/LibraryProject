@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     # هذا المسار يربط الرابط /books/ بصفحة الرئيسية
     path('', views.home, name='home'),
