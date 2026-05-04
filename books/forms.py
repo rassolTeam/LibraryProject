@@ -9,7 +9,7 @@ from .models import Book, BookReview, Author, Category
 
 
 # ─────────────────────────────────────────────
-#  1. فورم تسجيل مستخدم جديد
+#  1. فورم تسجيل مستخدم جديدالان
 # ─────────────────────────────────────────────
 class UserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(
@@ -54,7 +54,7 @@ class UserRegistrationForm(UserCreationForm):
         label="كلمة المرور",
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': '8 أحرف على الأقل',
+            'placeholder': '8 أحرف على الاقل',
             'id': 'id_password1',
         })
     )
@@ -75,7 +75,7 @@ class UserRegistrationForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            raise ValidationError("هذا البريد الإلكتروني مسجّل مسبقاً.")
+            raise ValidationError(" البريد الإلكتروني مسجّل مسبقاً.")
         return email
 
     def clean_username(self):
@@ -224,6 +224,23 @@ class BookUploadForm(forms.ModelForm):
             'cover_image', 'pdf_file', 'read_online_url', 'published_year',
         ]
 
+    def __init__(self, *args, **kwargs):
+        # استقبال المستخدم الذي يرفع الكتاب من الـ view
+        self.uploaded_by = kwargs.pop('uploaded_by', None)
+        super().__init__(*args, **kwargs)
+        # تحديث الـ querysets في كل طلب لضمان البيانات الحديثة من قاعدة البيانات
+        self.fields['author'].queryset = Author.objects.all()
+        self.fields['category'].queryset = Category.objects.filter(is_active=True)
+
+    def save(self, commit=True):
+        # ربط الكتاب بالمستخدم الذي رفعه (book.user = uploaded_by)
+        book = super().save(commit=False)
+        if self.uploaded_by:
+            book.user = self.uploaded_by
+        if commit:
+            book.save()
+        return book
+
     # ── Validation ──
     def clean_title(self):
         title = self.cleaned_data.get('title', '').strip()
@@ -311,6 +328,12 @@ class BookReviewForm(forms.ModelForm):
         model = BookReview
         fields = ['rating', 'comment']
 
+    def __init__(self, *args, **kwargs):
+        # استقبال الكتاب والمستخدم لفحص التكرار (unique_together)
+        self.book = kwargs.pop('book', None)
+        self.review_user = kwargs.pop('review_user', None)
+        super().__init__(*args, **kwargs)
+
     # ── Validation ──
     def clean_rating(self):
         rating = self.cleaned_data.get('rating')
@@ -329,11 +352,28 @@ class BookReviewForm(forms.ModelForm):
             raise ValidationError("التعليق طويل جداً، الحد الأقصى 1000 حرف.")
         return comment
 
+    def clean(self):
+        cleaned_data = super().clean()
+        # التحقق من قيد unique_together في مودل BookReview (book + user)
+        if self.book and self.review_user:
+            from .models import BookReview as _BookReview
+            if _BookReview.objects.filter(book=self.book, user=self.review_user).exists():
+                raise ValidationError(
+                    "لقد قمت بمراجعة هذا الكتاب مسبقاً، لا يمكن إضافة أكثر من مراجعة واحدة."
+                )
+        return cleaned_data
+
 
 # ─────────────────────────────────────────────
 #  5. فورم البحث عن الكتب
 # ─────────────────────────────────────────────
 class BookSearchForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # تحديث قائمة التصنيفات في كل طلب لضمان البيانات الحديثة
+        self.fields['category'].queryset = Category.objects.filter(is_active=True)
+
     query = forms.CharField(
         required=False,
         label="ابحث عن كتاب",
@@ -480,7 +520,19 @@ class CustomPasswordChangeForm(forms.Form):
         })
     )
 
+    def __init__(self, user, *args, **kwargs):
+        # استقبال المستخدم الحالي للتحقق من كلمة المرور القديمة
+        self.user = user
+        super().__init__(*args, **kwargs)
+
     # ── Validation ──
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get('old_password')
+        # التحقق من أن كلمة المرور الحالية صحيحة قبل السماح بالتغيير
+        if not self.user.check_password(old_password):
+            raise ValidationError("كلمة المرور الحالية غير صحيحة.")
+        return old_password
+
     def clean_new_password1(self):
         password = self.cleaned_data.get('new_password1')
         if len(password) < 8:
@@ -498,3 +550,30 @@ class CustomPasswordChangeForm(forms.Form):
         if p1 and p2 and p1 != p2:
             raise ValidationError("كلمتا المرور غير متطابقتين.")
         return cleaned_data
+
+
+# ─────────────────────────────────────────────
+#  8. فورم تأكيد تسجيل الخروج
+# ─────────────────────────────────────────────
+class LogoutConfirmationForm(forms.Form):
+    password = forms.CharField(
+        label="كلمة المرور",
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'أدخل كلمة المرور لتأكيد الخروج',
+            'id': 'id_logout_password',
+            'autofocus': True,
+        })
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        # التحقق من أن كلمة المرور المدخلة تطابق كلمة مرور المستخدم الحالي
+        if self.user and not self.user.check_password(password):
+            raise ValidationError("كلمة المرور غير صحيحة، يرجى إدخال كلمة المرور التي سجلت الدخول بها.")
+        return password
