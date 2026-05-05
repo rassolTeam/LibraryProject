@@ -1,36 +1,41 @@
+
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
-    # هذا المسار يربط الرابط /books/ بصفحة الرئيسية
+    # الصفحات الرئيسية
     path('', views.home, name='home'),
-    # هذا المسار يربط الرابط /books/books/ بقائمة الكتب
-    path('books/', views.book_list, name='book_list'),
-    # هذا المسار يربط الرابط /books/books/<pk>/ بتفاصيل كتاب معين
-    path('books/<int:pk>/', views.book_detail, name='book_detail'),
-    # هذا المسار يربط الرابط /books/authors/ بقائمة المؤلفين
-    path('authors/', views.author_list, name='author_list'),
-    # هذا المسار يربط الرابط /books/authors/<pk>/ بتفاصيل مؤلف معين
-    path('authors/<int:pk>/', views.author_detail, name='author_detail'),
-    # هذا المسار يربط الرابط /books/categories/<pk>/ بالكتب حسب الفئة
-    path('categories/<int:pk>/', views.books_by_category, name='books_by_category'),
-    # هذا المسار يربط الرابط /books/about/ بصفحة عن الموقع
     path('about/', views.about, name='about'),
-    # هذا المسار يربط الرابط /books/favorites/ بالكتب المفضلة
+
+    # الكتب
+    path('books/', views.book_list, name='book_list'),
+    path('books/category/<int:category_id>/', views.books_by_category, name='books_by_category'),
+    path('books/<int:pk>/', views.book_detail, name='book_detail'),
+    path('search/', views.search_books, name='search_books'),
+
+    # المؤلفون
+    path('authors/', views.author_list, name='author_list'),
+    path('authors/<int:pk>/', views.author_detail, name='author_detail'),
+
+    # المفضلة والمراجعات
     path('favorites/', views.favorite_books, name='favorite_books'),
-    # هذا المسار يربط الرابط /books/my-books/ بكتب المستخدم
+    path('books/<int:book_id>/favorite/', views.toggle_favorite, name='toggle_favorite'),
+    path('books/<int:book_id>/review/', views.add_review, name='add_review'),
+
+    # التحميل والقراءة
+    path('books/<int:book_id>/download/', views.download_book, name='download_book'),
+    path('books/<int:book_id>/read/', views.read_online, name='read_online'),
+
+    # رفع الكتب
+    path('upload-book/', views.upload_book, name='upload_book'),
     path('my-books/', views.my_books, name='my_books'),
-    # هذا المسار يربط الرابط /books/search/ بصفحة البحث
-    path('search/', views.search, name='search_books'),
-    # هذا المسار يربط الرابط /books/upload/ بصفحة رفع الكتاب
-    path('upload/', views.upload_book, name='upload_book'),
-    # هذا المسار يربط الرابط /books/download/<pk>/ بتنزيل كتاب
-    path('download/<int:pk>/', views.download_book, name='download_book'),
-    # هذا المسار يربط الرابط /books/toggle-favorite/<pk>/ بإضافة/إزالة من المفضلة
-    path('toggle-favorite/<int:pk>/', views.toggle_favorite, name='toggle_favorite'),
-    # هذا المسار يربط الرابط /books/logout/ بتسجيل الخروج
-    path('logout/', views.logout_view, name='logout'),
-    # هذا المسار يربط الرابط /books/login/ بتسجيل الدخول
+
+    # APIs
+    path('api/books/<int:book_id>/favorite/', views.api_toggle_favorite, name='api_toggle_favorite'),
+    path('api/search/suggestions/', views.api_search_suggestions, name='api_search_suggestions'),
+
+    # المصادقة
+    path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]
