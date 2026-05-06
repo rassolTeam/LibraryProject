@@ -6,118 +6,173 @@
 
 <div class="container mt-5">
 
-```
-<!-- العنوان -->
-<div class="text-center mb-5">
-    <h2 class="fw-bold">📤 رفع كتاب جديد</h2>
-    <p class="text-muted">شارك كتابك مع مجتمع القراء</p>
-</div>
-
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-
-        <div class="card border-0 shadow-lg">
-            <div class="card-body p-4">
-
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-                    <!-- الصف الأول -->
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">عنوان الكتاب</label>
-                            {{ form.title }}
-                            {% if form.title.errors %}
-                                <div class="text-danger small">{{ form.title.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">المؤلف</label>
-                            {{ form.author }}
-                            {% if form.author.errors %}
-                                <div class="text-danger small">{{ form.author.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                    </div>
-
-                    <!-- الصف الثاني -->
-                    <div class="row g-3 mt-1">
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">التصنيف</label>
-                            {{ form.category }}
-                            {% if form.category.errors %}
-                                <div class="text-danger small">{{ form.category.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">سنة النشر</label>
-                            {{ form.published_year }}
-                            {% if form.published_year.errors %}
-                                <div class="text-danger small">{{ form.published_year.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                    </div>
-
-                    <!-- الوصف -->
-                    <div class="mt-3">
-                        <label class="form-label fw-bold">الوصف</label>
-                        {{ form.description }}
-                        {% if form.description.errors %}
-                            <div class="text-danger small">{{ form.description.errors }}</div>
-                        {% endif %}
-                    </div>
-
-                    <!-- الملفات -->
-                    <div class="row g-3 mt-1">
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">صورة الغلاف</label>
-                            {{ form.cover_image }}
-                            {% if form.cover_image.errors %}
-                                <div class="text-danger small">{{ form.cover_image.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">ملف PDF (اختياري)</label>
-                            {{ form.pdf_file }}
-                            {% if form.pdf_file.errors %}
-                                <div class="text-danger small">{{ form.pdf_file.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                    </div>
-
-                    <!-- رابط -->
-                    <div class="mt-3">
-                        <label class="form-label fw-bold">رابط القراءة (اختياري)</label>
-                        {{ form.read_online_url }}
-                        {% if form.read_online_url.errors %}
-                            <div class="text-danger small">{{ form.read_online_url.errors }}</div>
-                        {% endif %}
-                    </div>
-
-                    <!-- زر -->
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary w-100 py-2">
-                            <i class="fas fa-upload"></i> رفع الكتاب
-                        </button>
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
-
+    <!-- العنوان -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-primary"><i class="fas fa-upload"></i> رفع كتاب جديد</h2>
+        <p class="text-muted">شارك كتابك مع مجتمع القراء</p>
     </div>
-</div>
-```
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h4 class="mb-0"><i class="fas fa-book-open"></i> معلومات الكتاب</h4>
+                </div>
+                <div class="card-body p-5">
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- الصف الأول -->
+                        <div class="row g-4">
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <i class="fas fa-heading position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                    {{ form.title }}
+                                    <label class="form-label fw-bold ms-4"><i class="fas fa-heading"></i> عنوان الكتاب</label>
+                                </div>
+                                {% if form.title.errors %}
+                                    <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <i class="fas fa-user position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                    {{ form.author }}
+                                    <label class="form-label fw-bold ms-4"><i class="fas fa-user"></i> المؤلف</label>
+                                </div>
+                                {% if form.author.errors %}
+                                    <div class="text-danger small mt-1">{{ form.author.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <!-- الصف الثاني -->
+                        <div class="row g-4 mt-2">
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <i class="fas fa-tags position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                    {{ form.category }}
+                                    <label class="form-label fw-bold ms-4"><i class="fas fa-tags"></i> التصنيف</label>
+                                </div>
+                                {% if form.category.errors %}
+                                    <div class="text-danger small mt-1">{{ form.category.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <i class="fas fa-calendar position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                    {{ form.published_year }}
+                                    <label class="form-label fw-bold ms-4"><i class="fas fa-calendar"></i> سنة النشر</label>
+                                </div>
+                                {% if form.published_year.errors %}
+                                    <div class="text-danger small mt-1">{{ form.published_year.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <!-- الوصف -->
+                        <div class="mt-4">
+                            <div class="form-floating">
+                                <i class="fas fa-align-left position-absolute top-0 start-0 mt-3 ms-3 text-muted"></i>
+                                {{ form.description }}
+                                <label class="form-label fw-bold ms-4"><i class="fas fa-align-left"></i> الوصف</label>
+                            </div>
+                            {% if form.description.errors %}
+                                <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- الملفات -->
+                        <div class="row g-4 mt-2">
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <i class="fas fa-image position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                    {{ form.cover_image }}
+                                    <label class="form-label fw-bold ms-4"><i class="fas fa-image"></i> صورة الغلاف</label>
+                                </div>
+                                {% if form.cover_image.errors %}
+                                    <div class="text-danger small mt-1">{{ form.cover_image.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <i class="fas fa-file-pdf position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                    {{ form.pdf_file }}
+                                    <label class="form-label fw-bold ms-4"><i class="fas fa-file-pdf"></i> ملف PDF (اختياري)</label>
+                                </div>
+                                {% if form.pdf_file.errors %}
+                                    <div class="text-danger small mt-1">{{ form.pdf_file.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <!-- رابط -->
+                        <div class="mt-4">
+                            <div class="form-floating">
+                                <i class="fas fa-link position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                {{ form.read_online_url }}
+                                <label class="form-label fw-bold ms-4"><i class="fas fa-link"></i> رابط القراءة (اختياري)</label>
+                            </div>
+                            {% if form.read_online_url.errors %}
+                                <div class="text-danger small mt-1">{{ form.read_online_url.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- زر -->
+                        <div class="mt-5 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3" style="border-radius: 50px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);">
+                                <i class="fas fa-upload"></i> رفع الكتاب
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 </div>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+    }
+
+    .form-floating > .form-control, .form-floating > .form-select {
+        padding-left: 3rem;
+    }
+
+    .form-floating > label {
+        padding-left: 2.5rem;
+    }
+
+    .card {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+    }
+</style>
+
 {% endblock %}
+
+

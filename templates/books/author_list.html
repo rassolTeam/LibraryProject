@@ -5,71 +5,130 @@
 {% block content %}
 
 <div class="container mt-5">
+    <div class="row">
+        <!-- Categories and Stats -->
+        <div class="col-lg-3">
+            <div class="sidebar p-4 mb-4">
+                <div class="sidebar-header">
+                    <h5><i class="fas fa-tags"></i> التصنيفات</h5>
+                    <div class="stats-card">
+                        <div class="stat-item">
+                            <div class="stat-icon"><i class="fas fa-book"></i></div>
+                            <div class="stat-meta">
+                                <strong>{{ total_books|default:0 }}</strong>
+                                <span>إجمالي الكتب</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: #198754;"><i class="fas fa-user"></i></div>
+                            <div class="stat-meta">
+                                <strong>{{ total_authors|default:0 }}</strong>
+                                <span>عدد المؤلفين</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: #ffc107;"><i class="fas fa-layer-group"></i></div>
+                            <div class="stat-meta">
+                                <strong>{{ categories.count|default:0 }}</strong>
+                                <span>عدد التصنيفات</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-```
-<!-- العنوان -->
-<div class="text-center mb-5">
-    <h2 class="fw-bold">👨‍💼 المؤلفون</h2>
-    <p class="text-muted">تعرّف على جميع المؤلفين في المكتبة</p>
-</div>
-
-<div class="row g-4">
-
-    {% for author in authors %}
-    <div class="col-md-4 col-sm-6">
-
-        <div class="card border-0 shadow-sm h-100 author-card p-3 text-center">
-
-            <!-- الصورة -->
-            <div class="mb-3">
-                {% if author.photo %}
-                <img src="{{ author.photo.url }}"
-                     class="rounded-circle shadow"
-                     style="width: 100px; height: 100px; object-fit: cover;">
-                {% else %}
-                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto shadow"
-                     style="width: 100px; height: 100px;">
-                    <i class="fas fa-user fa-2x text-muted"></i>
+                {% if not user.is_authenticated %}
+                <div class="card p-4 mb-4 text-white" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); border: none; box-shadow: 0 15px 35px rgba(13,110,253,0.15);">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <div class="fs-2"><i class="fas fa-user-lock"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1">تسجيل الدخول للوصول للمفضلة</h6>
+                            <p class="small mb-0">الآن يمكنك حفظ الكتب المفضلة، رفع محتوى جديد، ومتابعة كتبك بسهولة.</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'login' %}" class="btn btn-light btn-sm w-100 mb-2"><i class="fas fa-sign-in-alt"></i> تسجيل دخول</a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-light btn-sm w-100"><i class="fas fa-user-plus"></i> تسجيل جديد</a>
                 </div>
                 {% endif %}
+
+                <div class="sidebar-links">
+                    {% for category in categories %}
+                        <a href="{% url 'books_by_category' category.id %}">
+                            <i class="fas fa-book-open"></i>
+                            <span>{{ category.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
-
-            <!-- الاسم -->
-            <h5 class="fw-bold">{{ author.name }}</h5>
-
-            <!-- نبذة -->
-            <p class="text-muted small mb-3">
-                {{ author.bio|truncatewords:18 }}
-            </p>
-
-            <!-- عدد الكتب -->
-            <div class="mb-3">
-                <span class="badge bg-light text-dark p-2">
-                    <i class="fas fa-book text-primary"></i>
-                    {{ author.books_count }} كتاب
-                </span>
-            </div>
-
-            <!-- زر -->
-            <a href="{{ author.get_absolute_url }}" class="btn btn-view btn-sm">
-                <i class="fas fa-user"></i> عرض الملف
-            </a>
-
         </div>
 
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info text-center p-4 shadow-sm">
-            <i class="fas fa-info-circle fa-2x mb-3"></i>
-            <h5>لا يوجد مؤلفون</h5>
-            <p class="mb-0">لم يتم إضافة أي مؤلفين بعد.</p>
+        <!-- Main Content -->
+        <div class="col-lg-9">
+
+            <!-- العنوان -->
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">👨‍💼 المؤلفون</h2>
+                <p class="text-muted">تعرّف على جميع المؤلفين في المكتبة</p>
+            </div>
+
+            <div class="row g-4">
+
+                {% for author in authors %}
+                <div class="col-md-4 col-sm-6">
+
+                    <div class="card border-0 shadow-sm h-100 author-card p-3 text-center">
+
+                        <!-- الصورة -->
+                        <div class="mb-3">
+                            {% if author.photo %}
+                            <img src="{{ author.photo.url }}"
+                                 class="rounded-circle shadow"
+                                 style="width: 100px; height: 100px; object-fit: cover;">
+                            {% else %}
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto shadow"
+                                 style="width: 100px; height: 100px;">
+                                <i class="fas fa-user fa-2x text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- الاسم -->
+                        <h5 class="fw-bold">{{ author.name }}</h5>
+
+                        <!-- نبذة -->
+                        <p class="text-muted small mb-3">
+                            {{ author.bio|truncatewords:18 }}
+                        </p>
+
+                        <!-- عدد الكتب -->
+                        <div class="mb-3">
+                            <span class="badge bg-light text-dark p-2">
+                                <i class="fas fa-book text-primary"></i>
+                                {{ author.books_count }} كتاب
+                            </span>
+                        </div>
+
+                        <!-- زر -->
+                        <a href="{{ author.get_absolute_url }}" class="btn btn-view btn-sm">
+                            <i class="fas fa-user"></i> عرض الملف
+                        </a>
+
+                    </div>
+
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center p-4 shadow-sm">
+                        <i class="fas fa-info-circle fa-2x mb-3"></i>
+                        <h5>لا يوجد مؤلفون</h5>
+                        <p class="mb-0">لم يتم إضافة أي مؤلفين بعد.</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
         </div>
     </div>
-    {% endfor %}
-
 </div>
-```
 
-</div>
 {% endblock %}

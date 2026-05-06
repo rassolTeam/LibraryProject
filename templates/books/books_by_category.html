@@ -90,6 +90,13 @@
                     </a>
                     {% endif %}
 
+                    {% if book.pdf_file %}
+                    <a href="{% url 'download_book' book.id %}"
+                       class="btn btn-sm btn-outline-info">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    {% endif %}
+
                 </div>
 
             </div>
