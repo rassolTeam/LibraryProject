@@ -3,23 +3,32 @@
 {% block title %}تأكيد تسجيل الخروج{% endblock %}
 
 {% block content %}
-<div class="card border-0 shadow-sm p-4 mt-4">
-    <div class="card-body">
-        <h3 class="card-title mb-3"><i class="fas fa-sign-out-alt text-danger"></i> تأكيد تسجيل الخروج</h3>
-        <p class="text-muted mb-4">من أجل حماية حسابك، الرجاء إدخال كلمة المرور قبل إكمال تسجيل الخروج.</p>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-9 order-lg-2">
+            <div class="card border-0 shadow-sm p-4 mt-4">
+                <div class="card-body">
+                    <h3 class="card-title mb-3"><i class="fas fa-sign-out-alt text-danger"></i> تأكيد تسجيل الخروج</h3>
+                    <p class="text-muted mb-4">من أجل حماية حسابك، الرجاء إدخال كلمة المرور قبل إكمال تسجيل الخروج.</p>
 
-        <form method="post" class="needs-validation" novalidate>
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_logout_password" class="form-label fw-bold"><i class="fas fa-key"></i> كلمة المرور</label>
-                {{ form.password }}
-                {% if form.password.errors %}
-                    <div class="text-danger small mt-1">{{ form.password.errors|striptags }}</div>
-                {% endif %}
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_logout_password" class="form-label fw-bold"><i class="fas fa-key"></i> كلمة المرور</label>
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="text-danger small mt-1">{{ form.password.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-lg"><i class="fas fa-sign-out-alt"></i> تسجيل خروج</button>
+                        <a href="{% url 'home' %}" class="btn btn-secondary btn-lg ms-2"><i class="fas fa-chevron-left"></i> رجوع</a>
+                    </form>
+                </div>
             </div>
-            <button type="submit" class="btn btn-danger btn-lg"><i class="fas fa-sign-out-alt"></i> تسجيل خروج</button>
-            <a href="{% url 'home' %}" class="btn btn-secondary btn-lg ms-2"><i class="fas fa-chevron-left"></i> رجوع</a>
-        </form>
+        </div>
+        <div class="col-lg-3 order-lg-1">
+            {% include 'includes/sidebar.html' %}
+        </div>
     </div>
 </div>
 {% endblock %}

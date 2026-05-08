@@ -6,8 +6,8 @@
 {% block content %}
 
 <div class="container mt-5">
-
-```
+    <div class="row">
+        <div class="col-lg-9 order-lg-2">
 <!-- Breadcrumb -->
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-white p-3 rounded shadow-sm">
@@ -144,7 +144,11 @@
     </div>
     {% endif %}
 </div>
-```
+            </div>
 
+        <div class="col-lg-3 order-lg-1">
+            {% include 'includes/sidebar.html' %}
+        </div>
+    </div>
 </div>
 {% endblock %}

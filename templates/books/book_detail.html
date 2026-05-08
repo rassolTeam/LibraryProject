@@ -5,6 +5,8 @@
 {% block content %}
 
 <div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-9 order-lg-2">
 
 ```
 <div class="row g-4">
@@ -166,9 +168,9 @@
                     {% for review in reviews %}
                         <div class="list-group-item shadow-sm mb-3 rounded">
                             <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">{{ review.user.username }}</h6>
                                     <small class="text-muted">{{ review.created_at|date:"Y-m-d" }}</small>
+                                </div>
+
                                 </div>
                                 <span class="badge bg-warning text-dark">{{ review.rating }} ⭐</span>
                             </div>
@@ -229,5 +231,10 @@
 {% endif %}
 ```
 
-</div>
+                </div>
+                <div class="col-lg-3 order-lg-1">
+                    {% include 'includes/sidebar.html' %}
+                </div>
+            </div>
+        </div>
 {% endblock %}

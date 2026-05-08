@@ -5,9 +5,11 @@
 {% block content %}
 
 <div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-9 order-lg-2">
 
-    <!-- العنوان -->
-    <div class="text-center mb-5">
+            <!-- العنوان -->
+            <div class="text-center mb-5">
         <h2 class="fw-bold text-primary"><i class="fas fa-upload"></i> رفع كتاب جديد</h2>
         <p class="text-muted">شارك كتابك مع مجتمع القراء</p>
     </div>
@@ -142,8 +144,13 @@
             </div>
 
         </div>
-    </div>
+            </div>
 
+        <div class="col-lg-3 order-lg-1">
+            {% include 'includes/sidebar.html' %}
+        </div>
+
+    </div>
 </div>
 
 <style>

@@ -6,8 +6,10 @@
 {% block content %}
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div class="row">
+        <div class="col-lg-9 order-lg-2">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
                     <h4><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h4>
@@ -45,6 +47,12 @@
                     </form>
                 </div>
             </div>
+        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 order-lg-1">
+            {% include 'includes/sidebar.html' %}
         </div>
     </div>
 </div>

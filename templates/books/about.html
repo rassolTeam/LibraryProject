@@ -1,118 +1,95 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}عن المكتبة - المكتبة الإلكترونية{% endblock %}
 
 {% block content %}
 
 <div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <!-- Hero -->
+            <section class="about-hero py-5 rounded-4 shadow-sm mb-5">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h1 class="display-6 fw-bold mb-3">المكتبة الإلكترونية</h1>
+                        <p class="lead text-muted mb-4">منصة معرفية تهدف لنشر الثقافة وإتاحة الكتب للجميع بطريقة عصرية وسهلة.</p>
+                        <p class="mb-4">نُقدّم مكتبة غنية بالكتب العربية والعالمية، أدوات تصفح ذكية، ودعم للمؤلفين لنشر أعمالهم والوصول إلى القراء.</p>
+                        <a href="{% url 'book_list' %}" class="btn btn-primary btn-lg me-2">استعراض الكتب</a>
+                        <a href="{% url 'upload_book' %}" class="btn btn-outline-primary btn-lg">رفع كتاب</a>
+                    </div>
+                    <div class="col-md-5 text-center">
+                        <img src="{% static 'images/about-illustration.svg' %}" alt="About" class="img-fluid about-illustration" style="max-height:260px;" onerror="this.style.display='none'; document.getElementById('about-fallback').style.display='block';">
+                        <div id="about-fallback" style="display:none;">
+                            <i class="fas fa-book-open fa-6x text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-```
-<!-- العنوان -->
-<div class="text-center mb-5">
-    <h2 class="fw-bold">📚 عن المكتبة الإلكترونية</h2>
-    <p class="text-muted">منصة معرفية تهدف لنشر الثقافة وإتاحة الكتب للجميع</p>
-</div>
+            <div class="row g-4">
 
-<div class="row g-4">
+                <!-- Main content (full width) -->
+                <div class="col-12">
 
-    <!-- المحتوى الرئيسي -->
-    <div class="col-md-8">
-
-        <!-- تعريف -->
         <div class="card border-0 shadow-sm p-4 mb-4">
-            <p class="lead mb-0">
-                مكتبتنا الإلكترونية توفر مجموعة واسعة من الكتب العربية والعالمية
-                في مختلف المجالات، لتكون مرجعًا لكل قارئ وباحث عن المعرفة.
-            </p>
+            <h3 class="fw-bold mb-3">من نحن</h3>
+            <p class="mb-0 text-muted">مكتبتنا تسعى لتوفير محتوى عالي الجودة للمجتمع القرائي، مع واجهة مستخدم بسيطة وأدوات بحث متقدمة لتسهيل الوصول للمصادر والمعارف.</p>
         </div>
 
-        <!-- الأهداف -->
-        <div class="card border-0 shadow-sm p-4 mb-4">
-            <h4 class="mb-3 fw-bold">
-                <i class="fas fa-bullseye text-primary"></i> أهدافنا
-            </h4>
-
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <i class="fas fa-check-circle text-success me-2"></i> نشر المعرفة والثقافة
-                </li>
-                <li class="list-group-item">
-                    <i class="fas fa-check-circle text-success me-2"></i> تشجيع القراءة
-                </li>
-                <li class="list-group-item">
-                    <i class="fas fa-check-circle text-success me-2"></i> توفير مصادر تعليمية متنوعة
-                </li>
-                <li class="list-group-item">
-                    <i class="fas fa-check-circle text-success me-2"></i> دعم المؤلفين والكتاب
-                </li>
-            </ul>
-        </div>
-
-        <!-- الإحصائيات -->
-        <div class="mb-4">
-            <h4 class="fw-bold mb-3">
-                <i class="fas fa-chart-line text-info"></i> إحصائيات المكتبة
-            </h4>
-
-            <div class="row g-3">
-
-                <div class="col-md-4">
-                    <div class="card text-center border-0 shadow-sm stat-card p-3">
-                        <i class="fas fa-book fa-3x text-primary mb-3"></i>
-                        <h2 class="text-primary">{{ total_books }}</h2>
-                        <p class="text-muted mb-0">كتاب متوفر</p>
-                    </div>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card feature-card border-0 text-center p-4 h-100">
+                    <i class="fas fa-search fa-2x text-primary mb-3"></i>
+                    <h5 class="fw-bold">بحث ذكي</h5>
+                    <p class="small text-muted">انطلق بسرعة للوصول للكتاب المناسب.</p>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card text-center border-0 shadow-sm stat-card p-3">
-                        <i class="fas fa-users fa-3x text-success mb-3"></i>
-                        <h2 class="text-success">{{ total_authors }}</h2>
-                        <p class="text-muted mb-0">مؤلف</p>
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card border-0 text-center p-4 h-100">
+                    <i class="fas fa-cloud-upload-alt fa-2x text-success mb-3"></i>
+                    <h5 class="fw-bold">رفع ومشاركة</h5>
+                    <p class="small text-muted">شارك كتبك مع مجتمع القراء بسهولة.</p>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card text-center border-0 shadow-sm stat-card p-3">
-                        <i class="fas fa-tags fa-3x text-info mb-3"></i>
-                        <h2 class="text-info">{{ total_categories }}</h2>
-                        <p class="text-muted mb-0">تصنيف</p>
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card border-0 text-center p-4 h-100">
+                    <i class="fas fa-shield-alt fa-2x text-info mb-3"></i>
+                    <h5 class="fw-bold">موثوقية</h5>
+                    <p class="small text-muted">نضمن جودة المحتوى وحماية حقوق المؤلفين.</p>
                 </div>
-
             </div>
         </div>
 
-    </div>
-
-    <!-- الجانب -->
-    <div class="col-md-4">
-
-        <div class="card border-0 shadow-sm p-4 text-center">
-            <h5 class="fw-bold mb-3">
-                <i class="fas fa-envelope text-primary"></i> تواصل معنا
-            </h5>
-
-            <p class="mb-3">
-                <i class="fas fa-envelope me-2 text-muted"></i>
-                info@library.com
-            </p>
-
-            <p class="mb-3">
-                <i class="fas fa-phone me-2 text-muted"></i>
-                0123456789
-            </p>
-
-            <p class="mb-0">
-                <i class="fas fa-map-marker-alt me-2 text-muted"></i>
-                المكتبة الإلكترونية - المدينة
-            </p>
+        <!-- Stats -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card text-center border-0 shadow-sm stat-card p-3">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h2 class="text-primary">{{ total_books }}</h2>
+                    <p class="text-muted mb-0">كتاب متوفر</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center border-0 shadow-sm stat-card p-3">
+                    <i class="fas fa-users fa-3x text-success mb-3"></i>
+                    <h2 class="text-success">{{ total_authors }}</h2>
+                    <p class="text-muted mb-0">مؤلف</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center border-0 shadow-sm stat-card p-3">
+                    <i class="fas fa-tags fa-3x text-info mb-3"></i>
+                    <h2 class="text-info">{{ total_categories }}</h2>
+                    <p class="text-muted mb-0">تصنيف</p>
+                </div>
+            </div>
         </div>
 
+                </div>
+            </div>
+
+        </div>
     </div>
-
-</div>
-```
-
 </div>
 {% endblock %}

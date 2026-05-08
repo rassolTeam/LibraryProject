@@ -52,10 +52,12 @@
     /* Sidebar */
     .sidebar {
         background: #ffffff;
-        min-height: 100vh;
+        min-height: auto;
         border-left: 1px solid #eee;
         box-shadow: 0 0 20px rgba(0,0,0,0.08);
         border-radius: 20px 0 0 20px;
+        position: sticky;
+        top: 100px;
     }
 
     .sidebar h5 {
@@ -242,6 +244,14 @@
     form input,
     form button {
         border-radius: 10px !important;
+    }
+
+    @media (max-width: 991px) {
+        .sidebar {
+            position: static;
+            min-height: auto;
+            border-radius: 15px;
+        }
     }
 </style>
 

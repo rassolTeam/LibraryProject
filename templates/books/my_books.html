@@ -7,48 +7,12 @@
 <div class="container mt-5">
     <div class="row">
         <!-- Categories and Stats -->
-        <div class="col-lg-3">
-            <div class="sidebar p-4 mb-4">
-                <div class="sidebar-header">
-                    <h5><i class="fas fa-tags"></i> التصنيفات</h5>
-                    <div class="stats-card">
-                        <div class="stat-item">
-                            <div class="stat-icon"><i class="fas fa-book"></i></div>
-                            <div class="stat-meta">
-                                <strong>{{ total_books|default:0 }}</strong>
-                                <span>إجمالي الكتب</span>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon" style="background: #198754;"><i class="fas fa-user"></i></div>
-                            <div class="stat-meta">
-                                <strong>{{ total_authors|default:0 }}</strong>
-                                <span>عدد المؤلفين</span>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon" style="background: #ffc107;"><i class="fas fa-layer-group"></i></div>
-                            <div class="stat-meta">
-                                <strong>{{ categories.count|default:0 }}</strong>
-                                <span>عدد التصنيفات</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-links">
-                    {% for category in categories %}
-                        <a href="{% url 'books_by_category' category.id %}">
-                            <i class="fas fa-book-open"></i>
-                            <span>{{ category.name }}</span>
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
+        <div class="col-lg-3 order-lg-1">
+            {% include 'includes/sidebar.html' %}
         </div>
 
         <!-- Main Content -->
-        <div class="col-lg-9">
+        <div class="col-lg-9 order-lg-2">
 
 
 <!-- Header -->
@@ -148,6 +112,7 @@
     </a>
 
 </div>
+{% endif %}
         </div>
     </div>
 </div>
