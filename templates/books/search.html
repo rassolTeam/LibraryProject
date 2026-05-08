@@ -6,8 +6,14 @@
 {% block content %}
 
 <div class="container mt-5">
+    <div class="row">
+        <!-- Categories and Stats -->
+        <div class="col-lg-3 order-lg-1">
+            {% include 'includes/sidebar.html' %}
+        </div>
 
-
+        <!-- Main Content -->
+        <div class="col-lg-9 order-lg-2">
 <!-- العنوان -->
 <div class="text-center mb-5">
     <h2 class="fw-bold">🔍 البحث في المكتبة</h2>
@@ -28,8 +34,16 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 {{ form.category }}
+            </div>
+
+            <div class="col-md-2">
+                {{ form.year_from }}
+            </div>
+
+            <div class="col-md-2">
+                {{ form.year_to }}
             </div>
 
             <div class="col-md-2">
@@ -95,6 +109,13 @@
                     </a>
                     {% endif %}
 
+                    {% if book.pdf_file %}
+                    <a href="{% url 'download_book' book.id %}"
+                       class="btn btn-sm btn-outline-info">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    {% endif %}
+
                 </div>
 
             </div>
@@ -155,7 +176,8 @@
     </ul>
 </nav>
 {% endif %}
-
-
+        </div>
+    </div>
 </div>
+
 {% endblock %}

@@ -1,0 +1,208 @@
+/* Custom Styles for Library Project */
+
+/* Sidebar Styles */
+.sidebar {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.sidebar-header h5 {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+}
+
+.stats-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #0d6efd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+}
+
+.stat-meta {
+    flex: 1;
+}
+
+.stat-meta strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 2px;
+}
+
+.stat-meta span {
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #495057;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.sidebar-links a:hover {
+    background: #0d6efd;
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar-links a i {
+    width: 18px;
+    text-align: center;
+}
+
+/* Book Cards */
+.book-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.book-card .card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.btn-view {
+    background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+    border: none;
+    color: white;
+}
+
+.btn-view:hover {
+    background: linear-gradient(135deg, #0b5ed7, #0a58ca);
+    color: white;
+}
+
+/* Carousel Enhancements */
+.carousel {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.carousel-caption {
+    background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        margin-bottom: 30px;
+    }
+
+    .stat-item {
+        padding: 10px;
+    }
+
+    .stat-meta strong {
+        font-size: 16px;
+    }
+}
+
+/* About Page Styles */
+.about-hero {
+    background: linear-gradient(135deg, rgba(13,110,253,0.08), rgba(13,202,240,0.04));
+    padding: 40px;
+}
+
+.feature-card {
+    border-radius: 12px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: #fff;
+}
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(13,110,253,0.08);
+}
+
+@media (max-width: 768px) {
+    .about-hero { padding: 24px; }
+}
+
+/* Place sidebar column on the right within the container for large screens */
+@media (min-width: 992px) {
+    /* Sidebar column: push to the right and set width */
+    .col-lg-3.order-lg-2 {
+        order: 2;
+        margin-left: auto;
+        flex: 0 0 300px;
+        max-width: 300px;
+        width: 300px;
+    }
+
+    /* Main content columns: ensure they appear before the sidebar */
+    .col-lg-9.order-lg-1,
+    .col-lg-8.order-lg-1 {
+        order: 1;
+        margin-right: 0;
+    }
+
+    /* Sidebar visual (keep inside flow) */
+    .sidebar {
+        position: sticky;
+        top: 90px;
+        width: 100%;
+        transform: none !important;
+        z-index: 2;
+        align-self: flex-start;
+    }
+}

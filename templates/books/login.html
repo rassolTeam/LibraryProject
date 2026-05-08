@@ -6,8 +6,10 @@
 {% block content %}
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div class="row">
+        <div class="col-lg-9 order-lg-2">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
                     <h4><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h4>
@@ -22,19 +24,36 @@
                     {% endif %}
                     <form method="post">
                         {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
                         <div class="mb-3">
-                            <label for="username" class="form-label">اسم المستخدم</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <label for="id_login_username" class="form-label">اسم المستخدم</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="text-danger small mt-1">{{ form.username.errors }}</div>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">كلمة المرور</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <label for="id_login_password" class="form-label">كلمة المرور</label>
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+                            {% endif %}
                         </div>
                         <button type="submit" class="btn btn-primary w-100">دخول</button>
                     </form>
                 </div>
             </div>
         </div>
+                </div>
+            </div>
+        </div>
+<!--        <div class="col-lg-3 order-lg-1">-->
+<!--            {% include 'includes/sidebar.html' %}-->
+<!--        </div>-->
     </div>
 </div>
 

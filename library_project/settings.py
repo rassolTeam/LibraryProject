@@ -61,6 +61,9 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'books.context_processors.sidebar_data',
                 'django.contrib.messages.context_processors.messages',
             ],
         },

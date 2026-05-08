@@ -6,135 +6,222 @@
 <!-- HERO SECTION -->
 
 <div class="container mt-4">
-    <div class="p-5 mb-5 rounded-4 text-white text-center shadow"
-         style="background: linear-gradient(45deg, #0d6efd, #0dcaf0);">
+    <div id="heroCarousel" class="carousel slide shadow-lg rounded-4 overflow-hidden" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for book in featured_books|slice:":3" %}
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                        class="{% if forloop.first %}active{% endif %}"
+                        aria-current="{% if forloop.first %}true{% endif %}"
+                        aria-label="شريحة {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
 
-    <h1 class="fw-bold mb-3">📚 مرحباً بك في المكتبة الإلكترونية</h1>
-    <p class="lead mb-4">
-        اكتشف آلاف الكتب العربية والعالمية في مكان واحد
-    </p>
-
-    <a href="{% url 'book_list' %}" class="btn btn-light px-4 py-2 fw-bold">
-        تصفح الكتب
-    </a>
-</div>
-
-</div>
-
-<!-- FEATURED BOOKS -->
-
-<div class="container">
-
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold">
-        <i class="fas fa-star text-warning"></i> الكتب المميزة
-    </h3>
-</div>
-
-<div class="row g-4">
-
-    {% for book in featured_books %}
-    <div class="col-lg-3 col-md-4 col-sm-6">
-
-        <div class="card book-card h-100">
-
-            {% if book.cover_image %}
-            <img src="{{ book.cover_image.url }}"
-                 class="card-img-top"
-                 style="height: 240px; object-fit: cover;">
+        <div class="carousel-inner">
+            {% if featured_books %}
+                {% for book in featured_books|slice:":3" %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" class="d-block w-100" style="max-height:520px; object-fit: cover;">
+                    {% else %}
+                    <div class="d-flex align-items-center justify-content-center bg-secondary" style="min-height:520px;">
+                        <div class="text-center px-4">
+                            <h2 class="display-5 text-white fw-bold">{{ book.title }}</h2>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block text-start">
+                        <span class="badge bg-white text-dark mb-2">كتاب مميز</span>
+                        <h1 class="fw-bold text-white">{{ book.title }}</h1>
+                        <p class="lead text-white-50 mb-4">{{ book.author.name }} • {{ book.category.name }}</p>
+                        <div class="d-flex flex-column flex-md-row gap-2 justify-content-center justify-content-md-start">
+                            <a href="{{ book.get_absolute_url }}" class="btn btn-light btn-lg">
+                                عرض التفاصيل
+                            </a>
+                            {% if book.pdf_file %}
+                            <a href="{% url 'download_book' book.id %}" class="btn btn-outline-light btn-lg">
+                                تحميل الآن
+                            </a>
+                            {% else %}
+                            <a href="{% url 'book_list' %}" class="btn btn-outline-light btn-lg">
+                                تصفح الكتب
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             {% else %}
-            <div class="bg-light d-flex align-items-center justify-content-center"
-                 style="height: 240px;">
-                <i class="fas fa-book fa-3x text-muted"></i>
-            </div>
+                <div class="carousel-item active">
+                    <div class="d-flex align-items-center justify-content-center bg-primary" style="min-height:520px;">
+                        <div class="text-center text-white px-4">
+                            <h1 class="display-5 fw-bold">مرحبا بك في المكتبة الإلكترونية</h1>
+                            <p class="lead text-white-50 mb-4">اكتشف آلاف الكتب العربية والعالمية في مكان واحد.</p>
+                            <a href="{% url 'book_list' %}" class="btn btn-light btn-lg">تصفح الكتب</a>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
+        </div>
 
-            <div class="card-body d-flex flex-column">
+        {% if featured_books|length > 1 %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">السابق</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">التالي</span>
+        </button>
+        {% endif %}
+    </div>
+</div>
 
-                <h6 class="fw-bold text-truncate">{{ book.title }}</h6>
-
-                <p class="text-muted small mb-1">
-                    <i class="fas fa-user"></i> {{ book.author.name }}
-                </p>
-
-                <p class="text-muted small mb-3">
-                    <i class="fas fa-tag"></i> {{ book.category.name }}
-                </p>
-
-                <div class="mt-auto d-flex justify-content-between">
-
-                    <a href="{{ book.get_absolute_url }}" class="btn btn-sm btn-view">
-                        <i class="fas fa-eye"></i>
-                    </a>
-
-                    {% if book.read_online_url %}
-                    <a href="{{ book.read_online_url }}" class="btn btn-sm btn-outline-success">
-                        <i class="fas fa-book-reader"></i>
-                    </a>
-                    {% endif %}
-
-                    {% if book.pdf_file %}
-                    <a href="{% url 'download_book' book.id %}" class="btn btn-sm btn-outline-info">
-                        <i class="fas fa-download"></i>
-                    </a>
-                    {% endif %}
-
+<!-- SIDEBAR CONTENT UNDER CAROUSEL -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Categories and Stats -->
+        <div class="col-lg-3 order-lg-1">
+            <div class="sidebar p-4 mb-4">
+                <div class="sidebar-header">
+                    <h5><i class="fas fa-tags"></i> التصنيفات</h5>
+                    <div class="stats-card">
+                        <div class="stat-item">
+                            <div class="stat-icon"><i class="fas fa-book"></i></div>
+                            <div class="stat-meta">
+                                <strong>{{ total_books|default:0 }}</strong>
+                                <span>إجمالي الكتب</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: #198754;"><i class="fas fa-user"></i></div>
+                            <div class="stat-meta">
+                                <strong>{{ total_authors|default:0 }}</strong>
+                                <span>عدد المؤلفين</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: #ffc107;"><i class="fas fa-layer-group"></i></div>
+                            <div class="stat-meta">
+                                <strong>{{ categories.count|default:0 }}</strong>
+                                <span>عدد التصنيفات</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                {% if not user.is_authenticated %}
+                <div class="card p-4 mb-4 text-white" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); border: none; box-shadow: 0 15px 35px rgba(13,110,253,0.15);">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <div class="fs-2"><i class="fas fa-user-lock"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1">تسجيل الدخول للوصول للمفضلة</h6>
+                            <p class="small mb-0">الآن يمكنك حفظ الكتب المفضلة، رفع محتوى جديد، ومتابعة كتبك بسهولة.</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'login' %}" class="btn btn-light btn-sm w-100 mb-2"><i class="fas fa-sign-in-alt"></i> تسجيل دخول</a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-light btn-sm w-100"><i class="fas fa-user-plus"></i> تسجيل جديد</a>
+                </div>
+                {% endif %}
+
+                <div class="sidebar-links">
+                    {% for category in categories %}
+                        <a href="{% url 'books_by_category' category.id %}">
+                            <i class="fas fa-book-open"></i>
+                            <span>{{ category.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Books -->
+        <div class="col-lg-9 order-lg-2">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold">
+                    <i class="fas fa-star text-warning"></i> الكتب المميزة
+                </h3>
             </div>
 
+            <div class="row g-4">
+                {% for book in featured_books %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card book-card h-100">
+                        {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" class="card-img-top" style="height: 240px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 240px;">
+                            <i class="fas fa-book fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="fw-bold text-truncate">{{ book.title }}</h6>
+                            <p class="text-muted small mb-1">
+                                <i class="fas fa-user"></i> {{ book.author.name }}
+                            </p>
+                            <p class="text-muted small mb-3">
+                                <i class="fas fa-tag"></i> {{ book.category.name }}</p>
+                            <div class="mt-auto d-flex justify-content-between gap-2">
+                                <a href="{{ book.get_absolute_url }}" class="btn btn-sm btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                {% if book.read_online_url %}
+                                <a href="{{ book.read_online_url }}" class="btn btn-sm btn-outline-success">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>
+                                {% endif %}
+                                {% if book.pdf_file %}
+                                <a href="{% url 'download_book' book.id %}" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-warning text-center p-4 shadow-sm">
+                        <i class="fas fa-exclamation-circle fa-2x mb-3"></i>
+                        <p class="mb-0">لا توجد كتب مميزة حالياً</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-
     </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-warning text-center p-4 shadow-sm">
-            <i class="fas fa-exclamation-circle fa-2x mb-3"></i>
-            <p class="mb-0">لا توجد كتب مميزة حالياً</p>
-        </div>
-    </div>
-    {% endfor %}
-
-</div>
-
-
 </div>
 
 <!-- STATS -->
 
 <div class="container mt-5 mb-5">
+    <div class="row g-4 text-center">
 
-
-<div class="row g-4 text-center">
-
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm p-4 stat-card">
-            <i class="fas fa-book fa-2x text-primary mb-2"></i>
-            <h2 class="text-primary">{{ total_books }}</h2>
-            <p class="text-muted mb-0">كتاب</p>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 stat-card">
+                <i class="fas fa-book fa-2x text-primary mb-2"></i>
+                <h2 class="text-primary">{{ total_books }}</h2>
+                <p class="text-muted mb-0">كتاب</p>
+            </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm p-4 stat-card">
-            <i class="fas fa-users fa-2x text-success mb-2"></i>
-            <h2 class="text-success">{{ total_authors }}</h2>
-            <p class="text-muted mb-0">مؤلف</p>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 stat-card">
+                <i class="fas fa-users fa-2x text-success mb-2"></i>
+                <h2 class="text-success">{{ total_authors }}</h2>
+                <p class="text-muted mb-0">مؤلف</p>
+            </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm p-4 stat-card">
-            <i class="fas fa-tags fa-2x text-info mb-2"></i>
-            <h2 class="text-info">{{ categories.count }}</h2>
-            <p class="text-muted mb-0">تصنيف</p>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 stat-card">
+                <i class="fas fa-tags fa-2x text-info mb-2"></i>
+                <h2 class="text-info">{{ categories.count }}</h2>
+                <p class="text-muted mb-0">تصنيف</p>
+            </div>
         </div>
+
     </div>
-
-</div>
-
-
 </div>
 
 {% endblock %}

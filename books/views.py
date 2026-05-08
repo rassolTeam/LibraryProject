@@ -1,26 +1,32 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponse, Http404
+from django.http import JsonResponse, HttpResponse, Http404, FileResponse
 from django.contrib import messages
 from django.db.models import Q, Count, Prefetch, Sum
 from django.core.paginator import Paginator
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from .models import Book, Category, Author, BookReview, FavoriteBook
-# from .forms import BookForm
+from .forms import (
+    BookUploadForm,
+    LogoutConfirmationForm,
+    UserRegistrationForm,
+    UserLoginForm,
+    BookSearchForm,
+    BookReviewForm,
+)
 
 def register(request):
     """تسجيل مستخدم جديد"""
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             messages.success(request, 'تم تسجيل حسابك بنجاح!')
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
 
 
@@ -30,23 +36,32 @@ def login_view(request):
         return redirect('home')
 
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
             messages.success(request, 'تم تسجيل الدخول بنجاح.')
             return redirect('home')
-        messages.error(request, 'اسم المستخدم أو كلمة المرور غير صحيحة.')
     else:
-        form = AuthenticationForm()
+        form = UserLoginForm()
 
     return render(request, 'books/login.html', {'form': form})
 
 
 def logout_view(request):
-    """تسجيل الخروج"""
-    logout(request)
-    messages.success(request, 'تم تسجيل الخروج بنجاح.')
-    return redirect('home')
+    """تسجيل الخروج مع تأكيد كلمة المرور"""
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.method == 'POST':
+        form = LogoutConfirmationForm(request.POST, user=request.user)
+        if form.is_valid():
+            logout(request)
+            messages.success(request, 'تم تسجيل الخروج بنجاح.')
+            return redirect('home')
+    else:
+        form = LogoutConfirmationForm(user=request.user)
+
+    return render(request, 'books/logout_confirm.html', {'form': form})
 
 def home(request):
     """الصفحة الرئيسية"""
@@ -84,10 +99,9 @@ def about(request):
 def upload_book(request):
     """رفع كتاب جديد"""
     if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES)
+        form = BookUploadForm(request.POST, request.FILES, uploaded_by=request.user)
         if form.is_valid():
             book = form.save(commit=False)
-            book.user = request.user
             # كتب الأدمن تعتمد تلقائيا، وبقيت الكتب تحتاج موافقة
             if request.user.is_staff or request.user.is_superuser:
                 book.is_approved = True
@@ -99,14 +113,17 @@ def upload_book(request):
             messages.success(request, success_msg)
             return redirect('my_books')
     else:
-        form = BookForm()
+        form = BookUploadForm(uploaded_by=request.user)
     return render(request, 'books/upload_book.html', {'form': form})
 
 @login_required
 def my_books(request):
     """الكتب التي رفعها المستخدم"""
     books = Book.objects.filter(user=request.user).select_related('author', 'category')
-    context = {'books': books}
+    categories = Category.objects.filter(is_active=True)
+    total_books = Book.objects.filter(is_available=True, is_approved=True).count()
+    total_authors = Author.objects.count()
+    context = {'books': books, 'categories': categories, 'total_books': total_books, 'total_authors': total_authors}
     return render(request, 'books/my_books.html', context)
 
 def about(request):
@@ -173,11 +190,20 @@ def book_detail(request, pk):
     # المراجعات
     reviews = book.reviews.select_related('user').all()
 
+    review_form = None
+    if request.user.is_authenticated:
+        review_form = BookReviewForm(
+            instance=BookReview.objects.filter(book=book, user=request.user).first(),
+            book=book,
+            review_user=request.user
+        )
+
     context = {
         'book': book,
         'related_books': related_books,
         'is_favorite': is_favorite,
         'reviews': reviews,
+        'review_form': review_form,
     }
     return render(request, 'books/book_detail.html', context)
 
@@ -205,7 +231,10 @@ def books_by_category(request, category_id):
 def author_list(request):
     """قائمة المؤلفين"""
     authors = Author.objects.annotate(books_count=Count('book')).filter(books_count__gt=0)
-    context = {'authors': authors}
+    categories = Category.objects.filter(is_active=True)
+    total_books = Book.objects.filter(is_available=True, is_approved=True).count()
+    total_authors = Author.objects.count()
+    context = {'authors': authors, 'categories': categories, 'total_books': total_books, 'total_authors': total_authors}
     return render(request, 'books/author_list.html', context)
 
 def author_detail(request, pk):
@@ -231,19 +260,44 @@ def author_detail(request, pk):
 
 def search_books(request):
     """بحث الكتب"""
-    query = request.GET.get('q', '')
+    form = BookSearchForm(request.GET or None)
     books = Book.objects.filter(is_available=True, is_approved=True).select_related('author', 'category')
+    search_query = ''
 
-    if query:
-        books = books.filter(
-            Q(title__icontains=query) |
-            Q(author__name__icontains=query) |
-            Q(description__icontains=query)
-        )
+    if form.is_valid():
+        search_query = form.cleaned_data.get('query', '')
+        category = form.cleaned_data.get('category')
+        year_from = form.cleaned_data.get('year_from')
+        year_to = form.cleaned_data.get('year_to')
+
+        if search_query:
+            books = books.filter(
+                Q(title__icontains=search_query) |
+                Q(author__name__icontains=search_query) |
+                Q(description__icontains=search_query)
+            )
+        if category:
+            books = books.filter(category=category)
+        if year_from:
+            books = books.filter(published_year__gte=year_from)
+        if year_to:
+            books = books.filter(published_year__lte=year_to)
+
+    paginator = Paginator(books, 12)
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+
+    categories = Category.objects.filter(is_active=True)
+    total_books = Book.objects.filter(is_available=True, is_approved=True).count()
+    total_authors = Author.objects.count()
 
     context = {
         'books': books,
-        'query': query,
+        'form': form,
+        'search_query': search_query,
+        'categories': categories,
+        'total_books': total_books,
+        'total_authors': total_authors,
     }
     return render(request, 'books/search.html', context)
 
@@ -251,9 +305,15 @@ def search_books(request):
 def favorite_books(request):
     """قائمة الكتب المفضلة"""
     favorites = FavoriteBook.objects.filter(user=request.user).select_related('book__author', 'book__category')
+    categories = Category.objects.filter(is_active=True)
+    total_books = Book.objects.filter(is_available=True, is_approved=True).count()
+    total_authors = Author.objects.count()
 
     context = {
         'favorites': favorites,
+        'categories': categories,
+        'total_books': total_books,
+        'total_authors': total_authors,
     }
     return render(request, 'books/favorite_books.html', context)
 
@@ -280,33 +340,24 @@ def toggle_favorite(request, book_id):
 def add_review(request, book_id):
     """إضافة مراجعة للكتاب"""
     book = get_object_or_404(Book, id=book_id, is_available=True)
+    existing_review = BookReview.objects.filter(book=book, user=request.user).first()
 
     if request.method == 'POST':
-        rating = request.POST.get('rating')
-        comment = request.POST.get('comment')
-
-        if rating and comment:
-            # التحقق إذا كان المستخدم قد قام بتقييم هذا الكتاب من قبل
-            existing_review = BookReview.objects.filter(book=book, user=request.user).first()
-
-            if existing_review:
-                # تحديث التقييم الحالي
-                existing_review.rating = rating
-                existing_review.comment = comment
-                existing_review.save()
-                messages.success(request, 'تم تحديث تقييمك للكتاب بنجاح.')
-            else:
-                # إنشاء تقييم جديد
-                BookReview.objects.create(
-                    book=book,
-                    user=request.user,
-                    rating=rating,
-                    comment=comment
-                )
-                messages.success(request, 'تم إضافة تقييمك للكتاب بنجاح.')
+        if existing_review:
+            form = BookReviewForm(request.POST, instance=existing_review, book=book, review_user=request.user)
         else:
-            messages.error(request, 'الرجاء إدخال التقييم والتعليق.')
+            form = BookReviewForm(request.POST, book=book, review_user=request.user)
 
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.book = book
+            review.user = request.user
+            review.save()
+            messages.success(request, 'تم حفظ تقييمك للكتاب بنجاح.')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, error)
     return redirect('book_detail', pk=book.id)
 
 def download_book(request, book_id):
@@ -318,8 +369,8 @@ def download_book(request, book_id):
         book.downloads_count += 1
         book.save()
 
-        response = HttpResponse(book.pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{book.title}.pdf"'
+        book.pdf_file.open('rb')
+        response = FileResponse(book.pdf_file, as_attachment=True, filename=f'{book.title}.pdf')
         return response
     else:
         messages.error(request, 'عذراً، ملف الكتاب غير متوفر للتحميل.')

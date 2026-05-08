@@ -5,8 +5,14 @@
 {% block content %}
 
 <div class="container mt-5">
+    <div class="row">
+        <!-- Categories and Stats -->
+        <div class="col-lg-3 order-lg-1">
+            {% include 'includes/sidebar.html' %}
+        </div>
 
-
+        <!-- Main Content -->
+        <div class="col-lg-9 order-lg-2">
 <!-- العنوان -->
 <div class="text-center mb-5">
     <h2 class="fw-bold">❤️ الكتب المفضلة</h2>
@@ -63,6 +69,13 @@
                     </a>
                     {% endif %}
 
+                    {% if favorite.book.pdf_file %}
+                    <a href="{% url 'download_book' favorite.book.id %}"
+                       class="btn btn-sm btn-outline-info">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    {% endif %}
+
                 </div>
 
             </div>
@@ -81,7 +94,8 @@
     {% endfor %}
 
 </div>
-
-
+        </div>
+    </div>
 </div>
+
 {% endblock %}

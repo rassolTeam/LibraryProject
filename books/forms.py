@@ -357,7 +357,10 @@ class BookReviewForm(forms.ModelForm):
         # التحقق من قيد unique_together في مودل BookReview (book + user)
         if self.book and self.review_user:
             from .models import BookReview as _BookReview
-            if _BookReview.objects.filter(book=self.book, user=self.review_user).exists():
+            review_qs = _BookReview.objects.filter(book=self.book, user=self.review_user)
+            if self.instance.pk:
+                review_qs = review_qs.exclude(pk=self.instance.pk)
+            if review_qs.exists():
                 raise ValidationError(
                     "لقد قمت بمراجعة هذا الكتاب مسبقاً، لا يمكن إضافة أكثر من مراجعة واحدة."
                 )
