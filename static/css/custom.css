@@ -198,8 +198,11 @@
 
     /* Sidebar visual (keep inside flow) */
     .sidebar {
-        position: static;
+        position: sticky;
+        top: 90px;
         width: 100%;
         transform: none !important;
+        z-index: 2;
+        align-self: flex-start;
     }
 }
