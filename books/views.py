@@ -376,17 +376,21 @@ def download_book(request, book_id):
         messages.error(request, 'عذراً، ملف الكتاب غير متوفر للتحميل.')
         return redirect('book_detail', pk=book.id)
 
-def read_online(request, book_id):
-    """قراءة الكتاب online"""
+def read_book(request, book_id):
+    """قراءة الكتاب في المتصفح"""
     book = get_object_or_404(Book, id=book_id, is_available=True)
 
-    if book.read_online_url:
+    if book.pdf_file:
         # زيادة عدد مرات القراءة
         book.reads_count += 1
         book.save()
-        return redirect(book.read_online_url)
+
+        book.pdf_file.open('rb')
+        response = FileResponse(book.pdf_file, as_attachment=False, filename=f'{book.title}.pdf')
+        response['Content-Type'] = 'application/pdf'
+        return response
     else:
-        messages.error(request, 'عذراً، القراءة الإلكترونية غير متوفرة لهذا الكتاب.')
+        messages.error(request, 'عذراً، ملف الكتاب غير متوفر للقراءة.')
         return redirect('book_detail', pk=book.id)
 
 # API Views

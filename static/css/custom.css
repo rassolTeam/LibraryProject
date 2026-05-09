@@ -1,53 +1,722 @@
 /* Custom Styles for Library Project */
 
-/* Sidebar Styles */
+/* Sidebar Styles - Deep Space Theme */
 .sidebar {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 15px;
-    border: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    background:
+        radial-gradient(ellipse at top, rgba(0, 0, 20, 0.9) 0%, rgba(0, 0, 0, 0.95) 50%, rgba(0, 0, 0, 1) 100%),
+        linear-gradient(135deg, #000011 0%, #000033 25%, #000022 50%, #000044 75%, #000011 100%) !important;
+    border-radius: 20px;
+    border: 1px solid rgba(100, 100, 255, 0.2);
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.5),
+        inset 0 0 100px rgba(50, 50, 150, 0.1),
+        0 0 200px rgba(0, 0, 50, 0.3);
+    overflow: hidden;
+    min-height: 600px;
+}
+
+/* Ensure sidebar content has dark background */
+.sidebar * {
+    background: transparent !important;
+}
+
+/* Override any Bootstrap backgrounds */
+.sidebar .card,
+.sidebar .stats-card,
+.sidebar .sidebar-header,
+.sidebar .sidebar-links {
+    background: rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 100, 255, 0.1) !important;
+}
+
+/* Sidebar text colors for space theme */
+.sidebar .sidebar-header h5,
+.sidebar .stat-meta,
+.sidebar .sidebar-links a {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.sidebar .sidebar-links a:hover {
+    color: rgba(100, 150, 255, 1) !important;
+    background: rgba(100, 150, 255, 0.1) !important;
+}
+
+/* Stats cards styling */
+.sidebar .stat-item {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(100, 100, 255, 0.2) !important;
+    backdrop-filter: blur(5px);
+}
+
+.sidebar .stat-icon {
+    background: linear-gradient(135deg, rgba(100, 100, 255, 0.3), rgba(150, 100, 255, 0.3)) !important;
+    border: 1px solid rgba(100, 100, 255, 0.4) !important;
+}
+
+/* Deep Space Background Animation */
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        /* Milky Way Galaxy */
+        radial-gradient(ellipse at 30% 20%, rgba(200, 200, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 70% 80%, rgba(255, 200, 200, 0.08) 0%, transparent 35%),
+        radial-gradient(ellipse at 50% 50%, rgba(200, 255, 200, 0.06) 0%, transparent 30%),
+        /* Cosmic Dust */
+        radial-gradient(circle at 20% 30%, rgba(100, 100, 200, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(200, 100, 100, 0.04) 0%, transparent 20%),
+        radial-gradient(circle at 60% 90%, rgba(100, 200, 100, 0.03) 0%, transparent 15%),
+        /* Aurora Effect */
+        linear-gradient(45deg, rgba(0, 100, 200, 0.02) 0%, transparent 30%, transparent 70%, rgba(200, 0, 100, 0.02) 100%);
+    animation: space-drift 30s ease-in-out infinite, aurora-shift 25s ease-in-out infinite alternate;
+    z-index: 1;
+}
+
+/* Deep Space Stars - Multiple Layers */
+.sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        /* Bright Stars Layer 1 */
+        radial-gradient(4px 4px at 20px 30px, rgba(255,255,255,0.95), transparent),
+        radial-gradient(3px 3px at 80px 70px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(4px 4px at 140px 40px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(3px 3px at 200px 80px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(4px 4px at 260px 30px, rgba(255,255,255,0.95), transparent),
+        radial-gradient(3px 3px at 320px 90px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(4px 4px at 380px 60px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(3px 3px at 440px 100px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(4px 4px at 500px 40px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(3px 3px at 560px 80px, rgba(255,255,255,0.95), transparent),
+
+        /* Medium Stars Layer 2 */
+        radial-gradient(2px 2px at 40px 120px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 100px 150px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 220px 140px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(2px 2px at 280px 110px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 340px 130px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 400px 120px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 460px 150px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(2px 2px at 520px 110px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 580px 140px, rgba(255,255,255,0.8), transparent),
+
+        /* Small Stars Layer 3 */
+        radial-gradient(1px 1px at 30px 200px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 70px 180px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 110px 220px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 150px 190px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 190px 210px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 230px 180px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 270px 200px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 310px 190px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 350px 220px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 390px 180px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 430px 200px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 470px 190px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 510px 210px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 550px 180px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 590px 200px, rgba(255,255,255,0.5), transparent),
+
+        /* Colored Stars Layer 4 */
+        radial-gradient(2px 2px at 60px 250px, rgba(173, 216, 230, 0.8), transparent),
+        radial-gradient(1px 1px at 120px 240px, rgba(255, 182, 193, 0.7), transparent),
+        radial-gradient(2px 2px at 180px 260px, rgba(144, 238, 144, 0.6), transparent),
+        radial-gradient(1px 1px at 240px 230px, rgba(255, 218, 185, 0.8), transparent),
+        radial-gradient(2px 2px at 300px 250px, rgba(221, 160, 221, 0.7), transparent),
+        radial-gradient(1px 1px at 360px 240px, rgba(173, 216, 230, 0.6), transparent),
+        radial-gradient(2px 2px at 420px 260px, rgba(255, 182, 193, 0.8), transparent),
+        radial-gradient(1px 1px at 480px 230px, rgba(144, 238, 144, 0.7), transparent),
+        radial-gradient(2px 2px at 540px 250px, rgba(255, 218, 185, 0.6), transparent),
+
+        /* Distant Stars Layer 5 */
+        radial-gradient(1px 1px at 25px 280px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 85px 290px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 145px 275px, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 205px 285px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 265px 280px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 325px 275px, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 385px 290px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 445px 280px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 505px 275px, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 565px 285px, rgba(255,255,255,0.3), transparent);
+    background-size: 650px 650px;
+    animation: stars-twinkle 8s ease-in-out infinite alternate, stars-drift 40s linear infinite;
+    z-index: 2;
+}
+
+/* Moving Planets Layer */
+.sidebar {
+    position: relative;
+}
+
+.sidebar .planets-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 3;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Planet 1 - Large Gas Giant */
+.planets-layer::before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle at 30% 30%,
+        rgba(255, 165, 0, 0.8) 0%,
+        rgba(255, 140, 0, 0.6) 30%,
+        rgba(255, 69, 0, 0.4) 60%,
+        rgba(139, 69, 19, 0.3) 100%);
+    border-radius: 50%;
+    box-shadow:
+        inset -20px -20px 40px rgba(0,0,0,0.5),
+        0 0 30px rgba(255, 165, 0, 0.3);
+    top: 20%;
+    left: -100px;
+    animation: planet-orbit-1 25s linear infinite;
+}
+
+/* Planet 2 - Ice Planet */
+.planets-layer::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at 40% 40%,
+        rgba(173, 216, 230, 0.9) 0%,
+        rgba(135, 206, 235, 0.7) 40%,
+        rgba(70, 130, 180, 0.5) 80%,
+        rgba(25, 25, 112, 0.3) 100%);
+    border-radius: 50%;
+    box-shadow:
+        inset -10px -10px 20px rgba(0,0,0,0.3),
+        0 0 20px rgba(173, 216, 230, 0.4);
+    top: 60%;
+    right: -100px;
+    animation: planet-orbit-2 20s linear infinite reverse;
+}
+
+/* Planet 3 - Rocky Planet */
+.sidebar .planet-3 {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background: radial-gradient(circle at 35% 35%,
+        rgba(210, 180, 140, 0.8) 0%,
+        rgba(160, 82, 45, 0.7) 50%,
+        rgba(101, 67, 33, 0.6) 100%);
+    border-radius: 50%;
+    box-shadow:
+        inset -8px -8px 15px rgba(0,0,0,0.4),
+        0 0 15px rgba(210, 180, 140, 0.3);
+    top: 40%;
+    left: -100px;
+    animation: planet-orbit-3 18s linear infinite;
+}
+
+/* Planet 4 - Purple Gas Giant */
+.sidebar .planet-4 {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    background: radial-gradient(circle at 25% 25%,
+        rgba(138, 43, 226, 0.8) 0%,
+        rgba(106, 90, 205, 0.6) 40%,
+        rgba(72, 61, 139, 0.4) 80%,
+        rgba(25, 25, 112, 0.3) 100%);
+    border-radius: 50%;
+    box-shadow:
+        inset -15px -15px 30px rgba(0,0,0,0.5),
+        0 0 25px rgba(138, 43, 226, 0.3);
+    top: 75%;
+    right: -100px;
+    animation: planet-orbit-4 30s linear infinite reverse;
+}
+
+/* Planet 5 - Small Moon-like */
+.sidebar .planet-5 {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle at 45% 45%,
+        rgba(220, 220, 220, 0.9) 0%,
+        rgba(192, 192, 192, 0.7) 60%,
+        rgba(128, 128, 128, 0.5) 100%);
+    border-radius: 50%;
+    box-shadow:
+        inset -5px -5px 10px rgba(0,0,0,0.3),
+        0 0 10px rgba(220, 220, 220, 0.2);
+    top: 15%;
+    left: -100px;
+    animation: planet-orbit-5 15s linear infinite;
+}
+
+/* Cosmic Dust Layer */
+.sidebar .cosmic-dust {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 5;
+    border-radius: 20px;
+    overflow: hidden;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 30% 40%, rgba(200, 200, 255, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 50% 60%, rgba(255, 200, 200, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 70% 80%, rgba(200, 255, 200, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 90% 10%, rgba(255, 255, 200, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 20% 70%, rgba(200, 255, 255, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 40% 90%, rgba(255, 200, 255, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 60% 30%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 80% 50%, rgba(200, 200, 200, 0.02) 1px, transparent 1px);
+    background-size: 100px 100px, 150px 150px, 200px 200px, 120px 120px, 180px 180px, 140px 140px, 160px 160px, 130px 130px, 170px 170px;
+    animation: dust-float 60s linear infinite;
+}
+
+/* Individual Moving Stars */
+.moving-stars .star-1 {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+    top: 10%;
+    left: -10px;
+    animation: star-move-1 12s linear infinite;
+}
+
+.moving-stars .star-2 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: rgba(173, 216, 230, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 0 3px rgba(173, 216, 230, 0.7);
+    top: 25%;
+    right: -10px;
+    animation: star-move-2 18s linear infinite reverse;
+}
+
+.moving-stars .star-3 {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 182, 193, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(255, 182, 193, 0.5);
+    top: 40%;
+    left: -10px;
+    animation: star-move-3 15s linear infinite;
+}
+
+.moving-stars .star-4 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: rgba(144, 238, 144, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(144, 238, 144, 0.6);
+    top: 55%;
+    right: -10px;
+    animation: star-move-4 20s linear infinite reverse;
+}
+
+.moving-stars .star-5 {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 218, 185, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(255, 218, 185, 0.7);
+    top: 70%;
+    left: -10px;
+    animation: star-move-5 14s linear infinite;
+}
+
+.moving-stars .star-6 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: rgba(221, 160, 221, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 3px rgba(221, 160, 221, 0.6);
+    top: 85%;
+    right: -10px;
+    animation: star-move-6 22s linear infinite reverse;
+}
+
+.moving-stars .star-7 {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+    top: 15%;
+    left: -10px;
+    animation: star-move-7 16s linear infinite;
+}
+
+.moving-stars .star-8 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: rgba(135, 206, 235, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(135, 206, 235, 0.5);
+    top: 35%;
+    right: -10px;
+    animation: star-move-8 19s linear infinite reverse;
+}
+
+/* Galaxy Animation */
+@keyframes galaxy-shift {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.7;
+        filter: hue-rotate(0deg) brightness(1);
+    }
+    25% {
+        transform: rotate(0.5deg) scale(1.01);
+        opacity: 0.9;
+        filter: hue-rotate(90deg) brightness(1.1);
+    }
+    50% {
+        transform: rotate(1deg) scale(1.02);
+        opacity: 1;
+        filter: hue-rotate(180deg) brightness(0.9);
+    }
+    75% {
+        transform: rotate(-0.5deg) scale(0.99);
+        opacity: 0.8;
+        filter: hue-rotate(270deg) brightness(1.2);
+    }
+    100% {
+        transform: rotate(-1deg) scale(0.98);
+        opacity: 0.7;
+        filter: hue-rotate(360deg) brightness(1);
+    }
+}
+
+/* Nebula Pulse Animation */
+@keyframes nebula-pulse {
+    0% {
+        filter: brightness(1) contrast(1);
+        transform: scale(1);
+    }
+    50% {
+        filter: brightness(1.3) contrast(1.2) hue-rotate(30deg);
+        transform: scale(1.05);
+    }
+    100% {
+        filter: brightness(0.8) contrast(0.9);
+        transform: scale(0.95);
+    }
+}
+
+/* Planet Orbit Animations */
+@keyframes planet-orbit-1 {
+    0% {
+        transform: translateX(-100px) translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateX(200px) translateY(-50px) rotate(90deg);
+    }
+    50% {
+        transform: translateX(500px) translateY(0px) rotate(180deg);
+    }
+    75% {
+        transform: translateX(800px) translateY(50px) rotate(270deg);
+    }
+    100% {
+        transform: translateX(1100px) translateY(0px) rotate(360deg);
+    }
+}
+
+@keyframes planet-orbit-2 {
+    0% {
+        transform: translateX(1100px) translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateX(800px) translateY(-30px) rotate(90deg);
+    }
+    50% {
+        transform: translateX(500px) translateY(0px) rotate(180deg);
+    }
+    75% {
+        transform: translateX(200px) translateY(30px) rotate(270deg);
+    }
+    100% {
+        transform: translateX(-100px) translateY(0px) rotate(360deg);
+    }
+}
+
+@keyframes planet-orbit-3 {
+    0% {
+        transform: translateX(-100px) translateY(0px) rotate(0deg);
+    }
+    20% {
+        transform: translateX(150px) translateY(-40px) rotate(72deg);
+    }
+    40% {
+        transform: translateX(400px) translateY(20px) rotate(144deg);
+    }
+    60% {
+        transform: translateX(650px) translateY(-20px) rotate(216deg);
+    }
+    80% {
+        transform: translateX(900px) translateY(40px) rotate(288deg);
+    }
+    100% {
+        transform: translateX(1100px) translateY(0px) rotate(360deg);
+    }
+}
+
+@keyframes planet-orbit-4 {
+    0% {
+        transform: translateX(1100px) translateY(0px) rotate(0deg);
+    }
+    30% {
+        transform: translateX(700px) translateY(-60px) rotate(108deg);
+    }
+    60% {
+        transform: translateX(300px) translateY(30px) rotate(216deg);
+    }
+    100% {
+        transform: translateX(-100px) translateY(0px) rotate(360deg);
+    }
+}
+
+@keyframes planet-orbit-5 {
+    0% {
+        transform: translateX(-100px) translateY(0px) rotate(0deg);
+    }
+    15% {
+        transform: translateX(100px) translateY(-25px) rotate(54deg);
+    }
+    30% {
+        transform: translateX(300px) translateY(15px) rotate(108deg);
+    }
+    45% {
+        transform: translateX(500px) translateY(-35px) rotate(162deg);
+    }
+    60% {
+        transform: translateX(700px) translateY(25px) rotate(216deg);
+    }
+    75% {
+        transform: translateX(900px) translateY(-15px) rotate(270deg);
+    }
+    100% {
+        transform: translateX(1100px) translateY(0px) rotate(360deg);
+    }
+}
+
+/* Moving Stars Animations */
+@keyframes star-move-1 {
+    0% { transform: translateX(-10px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(720px); opacity: 0; }
+}
+
+@keyframes star-move-2 {
+    0% { transform: translateX(720px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(-10px); opacity: 0; }
+}
+
+@keyframes star-move-3 {
+    0% { transform: translateX(-10px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(720px); opacity: 0; }
+}
+
+@keyframes star-move-4 {
+    0% { transform: translateX(720px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(-10px); opacity: 0; }
+}
+
+@keyframes star-move-5 {
+    0% { transform: translateX(-10px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(720px); opacity: 0; }
+}
+
+@keyframes star-move-6 {
+    0% { transform: translateX(720px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(-10px); opacity: 0; }
+}
+
+@keyframes star-move-7 {
+    0% { transform: translateX(-10px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(720px); opacity: 0; }
+}
+
+@keyframes star-move-8 {
+    0% { transform: translateX(720px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(-10px); opacity: 0; }
+}
+
+/* Space Background Animations */
+@keyframes space-drift {
+    0% {
+        background-position: 0% 0%;
+        filter: brightness(1) contrast(1);
+    }
+    25% {
+        background-position: 10% 10%;
+        filter: brightness(1.1) contrast(1.1);
+    }
+    50% {
+        background-position: 20% 20%;
+        filter: brightness(0.9) contrast(0.9);
+    }
+    75% {
+        background-position: 10% 30%;
+        filter: brightness(1.2) contrast(1.2);
+    }
+    100% {
+        background-position: 0% 0%;
+        filter: brightness(1) contrast(1);
+    }
+}
+
+@keyframes aurora-shift {
+    0% {
+        opacity: 0.1;
+        transform: translateX(-50px);
+    }
+    50% {
+        opacity: 0.3;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 0.1;
+        transform: translateX(-50px);
+    }
+}
+
+@keyframes stars-drift {
+    0% {
+        background-position: 0px 0px;
+    }
+    100% {
+        background-position: -650px -650px;
+    }
+}
+
+@keyframes dust-float {
+    0% {
+        background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+        opacity: 0.3;
+    }
+    25% {
+        background-position: 50px 30px, 75px 45px, 100px 60px, 60px 90px, 90px 15px, 70px 75px, 80px 55px, 65px 35px, 85px 65px;
+        opacity: 0.5;
+    }
+    50% {
+        background-position: 100px 60px, 150px 90px, 200px 120px, 120px 180px, 180px 30px, 140px 150px, 160px 110px, 130px 70px, 170px 130px;
+        opacity: 0.4;
+    }
+    75% {
+        background-position: 150px 90px, 225px 135px, 300px 180px, 180px 270px, 270px 45px, 210px 225px, 240px 165px, 195px 105px, 255px 195px;
+        opacity: 0.6;
+    }
+    100% {
+        background-position: 200px 120px, 300px 180px, 400px 240px, 240px 360px, 360px 60px, 280px 300px, 320px 220px, 260px 140px, 340px 260px;
+        opacity: 0.3;
+    }
+}
+
+/* Content Overlay */
+.sidebar > * {
+    position: relative;
+    z-index: 2;
 }
 
 .sidebar-header h5 {
-    color: #495057;
-    font-weight: 600;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #dee2e6;
-    padding-bottom: 10px;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 25px;
+    border-bottom: 2px solid rgba(138, 43, 226, 0.5);
+    padding-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    font-size: 1.3rem;
+}
+
+.sidebar-header h5 i {
+    color: #8a2be2;
+    margin-left: 10px;
 }
 
 .stats-card {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .stat-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
 }
 
 .stat-item:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.3);
 }
 
 .stat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: #0d6efd;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 16px;
+    font-size: 18px;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
 }
 
 .stat-meta {
@@ -56,45 +725,76 @@
 
 .stat-meta strong {
     display: block;
-    font-size: 18px;
-    font-weight: 700;
-    color: #212529;
-    margin-bottom: 2px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 3px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 .stat-meta span {
-    font-size: 12px;
-    color: #6c757d;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
+}
+
+/* Authentication Card */
+.sidebar .card {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3) !important;
+    color: white !important;
+}
+
+.sidebar .card h6 {
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.sidebar .card p {
+    color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .sidebar-links {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .sidebar-links a {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 15px;
+    gap: 12px;
+    padding: 14px 18px;
     text-decoration: none;
-    color: #495057;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .sidebar-links a:hover {
-    background: #0d6efd;
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
     color: white;
-    transform: translateX(5px);
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+    border-color: rgba(138, 43, 226, 0.5);
 }
 
 .sidebar-links a i {
-    width: 18px;
+    width: 20px;
     text-align: center;
+    color: #8a2be2;
+    transition: color 0.3s ease;
+}
+
+.sidebar-links a:hover i {
+    color: white;
 }
 
 /* Book Cards */
@@ -125,6 +825,411 @@
     color: white;
 }
 
+.book-detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.review-card {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.review-author {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+.review-date {
+    color: #6c757d;
+}
+
+.review-badge {
+    min-width: 82px;
+    font-size: 0.95rem;
+}
+
+/* تحسينات صفحة تفاصيل الكتاب */
+.book-cover-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.book-cover-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0d6efd, #0dcaf0, #198754);
+}
+
+.book-cover-image {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.book-cover-image:hover {
+    transform: scale(1.02);
+}
+
+.book-cover-placeholder {
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.book-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-read-primary {
+    background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    margin-bottom: 0.75rem;
+}
+
+.btn-read-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+    color: white;
+}
+
+.btn-download-secondary {
+    background: linear-gradient(135deg, #198754, #20c997);
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);
+}
+
+.btn-download-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(25, 135, 84, 0.4);
+    color: white;
+}
+
+.btn-favorite-outline {
+    background: transparent;
+    border: 2px solid #dc3545;
+    color: #dc3545;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-favorite-outline:hover {
+    background: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+/* بطاقة التفاصيل */
+.book-details-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.book-details-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6f42c1, #e83e8c, #fd7e14);
+}
+
+.book-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.book-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #212529;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.badge-pending {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #212529;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.book-meta-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    align-items: center;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.author-icon {
+    color: #6f42c1;
+    font-size: 1.1rem;
+}
+
+.author-label {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.author-name {
+    color: #0d6efd;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.author-name:hover {
+    color: #0b5ed7;
+}
+
+.reviews-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.reviews-icon {
+    color: #ffc107;
+}
+
+.book-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.stat-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.category-badge {
+    background: linear-gradient(135deg, #6f42c1, #7c4dff);
+    color: white;
+}
+
+.year-badge {
+    background: linear-gradient(135deg, #17a2b8, #20c997);
+    color: white;
+}
+
+.views-badge {
+    background: linear-gradient(135deg, #fd7e14, #ffc107);
+    color: #212529;
+}
+
+.read-button-section {
+    margin-bottom: 2.5rem;
+}
+
+.btn-read-main {
+    background: linear-gradient(135deg, #dc3545, #fd7e14);
+    border: none;
+    color: white;
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.btn-read-main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(220, 53, 69, 0.4);
+    color: white;
+}
+
+.read-notice {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: #6c757d;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    border: 2px solid #dee2e6;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.read-notice i {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+.book-description {
+    margin-bottom: 2.5rem;
+}
+
+.description-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.description-title i {
+    color: #0d6efd;
+}
+
+.description-text {
+    color: #495057;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.book-additional-info {
+    background: rgba(248, 249, 250, 0.5);
+    border-radius: 15px;
+    padding: 2rem;
+}
+
+.info-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #495057;
+    flex: 1;
+}
+
+.info-item.full-width {
+    flex: 1 1 100%;
+}
+
+.info-item i {
+    color: #6c757d;
+    width: 18px;
+    text-align: center;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #6c757d;
+    margin-right: 0.5rem;
+}
+
+.info-value {
+    font-weight: 500;
+    color: #212529;
+}
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .book-title {
+        font-size: 1.8rem;
+    }
+
+    .book-meta-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .book-stats {
+        justify-content: center;
+    }
+
+    .info-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .book-details-card,
+    .book-cover-card {
+        padding: 1.5rem;
+    }
+}
+
 .btn-view:hover {
     background: linear-gradient(135deg, #0b5ed7, #0a58ca);
     color: white;
@@ -147,14 +1252,30 @@
 @media (max-width: 768px) {
     .sidebar {
         margin-bottom: 30px;
+        min-height: auto;
+        border-radius: 15px;
+    }
+
+    .sidebar::before,
+    .sidebar::after {
+        animation-duration: 15s; /* Slower animation on mobile */
     }
 
     .stat-item {
-        padding: 10px;
+        padding: 12px;
     }
 
     .stat-meta strong {
         font-size: 16px;
+    }
+
+    .sidebar-header h5 {
+        font-size: 1.1rem;
+    }
+
+    .sidebar-links a {
+        padding: 12px 15px;
+        font-size: 0.9rem;
     }
 }
 

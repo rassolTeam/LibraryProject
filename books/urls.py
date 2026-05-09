@@ -24,7 +24,7 @@ urlpatterns = [
 
     # التحميل والقراءة
     path('books/<int:book_id>/download/', views.download_book, name='download_book'),
-    path('books/<int:book_id>/read/', views.read_online, name='read_online'),
+    path('books/<int:book_id>/read/', views.read_book, name='read_book'),
 
     # رفع الكتب
     path('upload-book/', views.upload_book, name='upload_book'),
